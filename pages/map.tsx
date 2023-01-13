@@ -1,9 +1,14 @@
-import { Container, Heading } from "@chakra-ui/react"
+import { Container, Flex, Heading } from "@chakra-ui/react"
+import BreweryListContainerView from "../src/components/brewery-list-containter-view/brewery-list-container-view"
+import MapView from "../src/components/map-view/map-view"
 
 const MapPage = () => {
   return (
     <Container>
-      <Heading>MapPage</Heading>
+      <Flex direction="row">
+        <BreweryListContainerView />
+        <MapView />
+      </Flex>
     </Container>
   )
 }
