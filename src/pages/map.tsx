@@ -1,6 +1,6 @@
 import { Container, Flex, Heading } from "@chakra-ui/react"
-import BreweryListContainerView from "../src/components/brewery-list-containter-view/brewery-list-container-view"
-import MapView from "../src/components/map-view/map-view"
+import BreweryListContainerView from "../components/brewery-list-containter-view/brewery-list-container-view"
+import MapView from "../components/map-view/map-view"
 
 const MapPage = () => {
   return (
@@ -14,3 +14,9 @@ const MapPage = () => {
 }
 
 export default MapPage
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  }
+}
