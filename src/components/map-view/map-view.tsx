@@ -32,11 +32,7 @@ const MapView: FC<MapViewProps> = (
   }
 ) => {
   // const [selectedBrew, setSelectedBrew] = useState(null)
-  const { data, error, isLoading } = useGetBreweriesByLocationQuery({
-    lat: "40.678177",
-    lng: "-73.944160",
-  })
-  console.log("!@ data", data)
+
   const mapRef = useRef<GoogleMap>()
   const [markerView, toggleMarkerView] = useToggle(true)
   const { isLoaded } = useLoadScript({
