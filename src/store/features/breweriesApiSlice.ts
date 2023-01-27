@@ -22,7 +22,17 @@ export const breweriesApi = createApi({
     getBreweriesByLocation: builder.query<BreweryState[], Location>({
       query: (location) => `/breweries?by_dist=${location.lat},${location.lng}`,
     }),
+    searchBreweries: builder.query<BreweryState[], string>({
+      query: (input) => `/breweries/search?query=${input}`,
+    }),
   }),
 })
 
-export const { useGetBreweriesByLocationQuery } = breweriesApi
+export const {
+  useGetBreweriesByLocationQuery,
+  useSearchBreweriesQuery,
+  util: { getRunningQueriesThunk },
+} = breweriesApi
+
+export const { getBreweriesByLocation, searchBreweries } =
+  breweriesApi.endpoints
