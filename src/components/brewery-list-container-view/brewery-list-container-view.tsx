@@ -12,7 +12,7 @@ import { BreweryListContainerViewProps } from "./brewery-list-container-view.pro
 
 const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
   return (
-    <Flex direction="column" background="pink" p="8">
+    <Flex direction="column" background="lightGray" p="8">
       <h1>BreweryListContainerView</h1>
       <SearchView />
       <BreweryListView />

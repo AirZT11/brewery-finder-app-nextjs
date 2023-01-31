@@ -8,6 +8,8 @@ import { useUserLocation } from "../../hooks/useUserLocation"
 import { useGetBreweriesByLocationQuery } from "../../store/features/api/apiSlice"
 import Image from "next/image"
 
+const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
+
 // .sidebar {
 //   background-color: rgba(35, 55, 75, 0.9);
 //   color: #fff;
@@ -57,9 +59,7 @@ const MapView: FC<MapViewProps> = (
         }}
         style={{ width: "100%", height: "100vh" }}
         mapStyle="mapbox://styles/mapbox/streets-v12"
-        mapboxAccessToken={
-          "pk.eyJ1Ijoic2FtamtpbTExIiwiYSI6ImNsZGp1OXhhYjAwOWkzb2xjaXJ6djBybG4ifQ.u7CmDeoRloVGuSUU-MGQmw"
-        }
+        mapboxAccessToken={KEY}
       >
         {breweries?.map((brewery) => (
           <Marker

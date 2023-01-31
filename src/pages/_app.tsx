@@ -4,6 +4,7 @@ import type { AppProps } from "next/app"
 // import { SessionContextProvider, Session } from "@supabase/auth-helpers-react"
 import { useState } from "react"
 import "mapbox-gl/dist/mapbox-gl.css"
+import { ChakraProvider } from "@chakra-ui/react"
 
 const { wrapper } = require("../store/store")
 
@@ -20,7 +21,9 @@ export function MyApp(
     //   supabaseClient={supabase}
     //   initialSession={pageProps.initialSession}
     // >
-    <Component {...pageProps} />
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
     // </SessionContextProvider>
   )
 }
