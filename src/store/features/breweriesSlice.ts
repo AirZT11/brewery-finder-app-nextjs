@@ -1,4 +1,12 @@
-import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit"
+import {
+  createEntityAdapter,
+  createSelector,
+  createSlice,
+  Draft,
+  PayloadAction,
+} from "@reduxjs/toolkit"
+import { RootState } from "../store"
+import { apiSlice } from "./api/apiSlice"
 
 export interface BreweryState {
   id: string
@@ -23,24 +31,31 @@ export interface BreweryState {
 /**
  * Default state object with initial values.
  */
-const initialState: BreweryState = {
-  id: "",
-  name: "",
-  brewery_type: "",
-  street: "",
-  address_2: "",
-  address_3: "",
-  city: "",
-  state: "",
-  county_province: "",
-  postal_code: "",
-  country: "",
-  longitude: "",
-  latitude: "",
-  phone: "",
-  website_url: "",
-  updated_at: "",
-  created_at: "",
+const initialState: BreweryState[] = [
+  {
+    id: "",
+    name: "",
+    brewery_type: "",
+    street: "",
+    address_2: "",
+    address_3: "",
+    city: "",
+    state: "",
+    county_province: "",
+    postal_code: "",
+    country: "",
+    longitude: "",
+    latitude: "",
+    phone: "",
+    website_url: "",
+    updated_at: "",
+    created_at: "",
+  },
+]
+
+export interface Location {
+  lat: number
+  lng: number
 }
 
 /**
@@ -53,7 +68,8 @@ export const brewerySlice = createSlice({
 })
 
 // A small helper of user state for `useSelector` function.
-export const getUserState = (state: { brewery: BreweryState }) => state.brewery
+export const getBreweryState = (state: { brewery: BreweryState }) =>
+  state.brewery
 
 // Exports all actions
 export const {} = brewerySlice.actions

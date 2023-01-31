@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import usersReducer from "./features/userSlice"
-import breweriesReducer from "./features/brewerySlice"
-import { breweriesApi } from "./features/breweriesApiSlice"
+import breweriesReducer from "./features/breweriesSlice"
+import { apiSlice } from "./features/api/apiSlice"
 import { createWrapper } from "next-redux-wrapper"
 
 /**
@@ -13,12 +13,12 @@ export const makeStore = () =>
     reducer: {
       users: usersReducer,
       breweries: breweriesReducer,
-      [breweriesApi.reducerPath]: breweriesApi.reducer,
+      [apiSlice.reducerPath]: apiSlice.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(breweriesApi.middleware),
+      getDefaultMiddleware().concat(apiSlice.middleware),
   })
 
 // Included to initiate SSR with Nextjs

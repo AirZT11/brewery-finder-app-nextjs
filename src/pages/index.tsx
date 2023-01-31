@@ -1,12 +1,13 @@
 import Head from "next/head"
-// import Image from "next/image"
-// import { Inter } from "@next/font/google"
 import styles from "../styles/Home.module.css"
 import { Heading } from "@chakra-ui/react"
-
-// const inter = Inter({ subsets: ["latin"] })
+import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 
 export default function Home() {
+  // TODO: Supbase Auth
+  // const session = useSession()
+  // const supabase = useSupabaseClient()
   return (
     <>
       <Head>

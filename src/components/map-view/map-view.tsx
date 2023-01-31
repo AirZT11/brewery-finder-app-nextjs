@@ -12,7 +12,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api"
 import mapStyles from "../../lib/mapStyles"
-import { useGetBreweriesByLocationQuery } from "../../store/features/breweriesApiSlice"
+// import { useGetBreweriesByLocationQuery } from "../../store/features/api/apiSlice"
 
 const mapContainerStyle = {
   width: "100%",
