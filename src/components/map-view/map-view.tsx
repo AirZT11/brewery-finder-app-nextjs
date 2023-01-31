@@ -1,23 +1,25 @@
-import { Flex, Spinner } from "@chakra-ui/react"
-import { FC, useCallback, useMemo, useRef, useState } from "react"
+import { Box, Flex, Spinner, Text, Icon } from "@chakra-ui/react"
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
-import { LatLngLiteral, MapOptions, MapViewProps } from "./map-view.props"
-
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-  LoadScript,
-  useJsApiLoader,
-} from "@react-google-maps/api"
-import mapStyles from "../../lib/mapStyles"
+import { MapViewProps } from "./map-view.props"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/apiSlice"
+import { Map, Marker } from "react-map-gl"
+import { useUserLocation } from "../../hooks/useUserLocation"
+import { useGetBreweriesByLocationQuery } from "../../store/features/api/apiSlice"
+import Image from "next/image"
 
-const mapContainerStyle = {
-  width: "100%",
-  height: "100vh",
-}
+// .sidebar {
+//   background-color: rgba(35, 55, 75, 0.9);
+//   color: #fff;
+//   padding: 6px 12px;
+//   font-family: monospace;
+//   z-index: 1;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   margin: 12px;
+//   border-radius: 4px;
+//   }
 
 const MapView: FC<MapViewProps> = (
   {
@@ -33,33 +35,44 @@ const MapView: FC<MapViewProps> = (
 ) => {
   // const [selectedBrew, setSelectedBrew] = useState(null)
 
-  const mapRef = useRef<GoogleMap>()
+  const { location, loading } = useUserLocation()
+  const { data: breweries, isLoading: brewsLoading } =
+    useGetBreweriesByLocationQuery(location, { skip: loading })
   const [markerView, toggleMarkerView] = useToggle(true)
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-  })
-  const center = useMemo<LatLngLiteral>(() => ({ lat: 44, lng: -80 }), [])
-  const options = useMemo<MapOptions>(
-    () => ({
-      styles: mapStyles,
-      clickableIcons: false,
-      disableDefaultUI: true,
-      zoomControl: true,
-    }),
-    []
-  )
-  const onLoad = useCallback((map: any) => (mapRef.current = map), [])
 
-  if (!isLoaded) return <Spinner />
+  if (loading)
+    return (
+      <Flex w="100%" h="100%">
+        <Spinner />
+      </Flex>
+    )
   return (
-    <Flex width="100%" height="100%">
-      <GoogleMap
-        zoom={10}
-        center={center}
-        mapContainerStyle={mapContainerStyle}
-        options={options}
-        onLoad={onLoad}
-      ></GoogleMap>
+    <Flex w="100%" h="100%" /* filter="blur(10px)" */>
+      <Map
+        onLoad={() => console.log("LOADED")}
+        initialViewState={{
+          latitude: location?.lat,
+          longitude: location?.lng,
+          zoom: 14,
+        }}
+        style={{ width: "100%", height: "100vh" }}
+        mapStyle="mapbox://styles/mapbox/streets-v12"
+        mapboxAccessToken={
+          "pk.eyJ1Ijoic2FtamtpbTExIiwiYSI6ImNsZGp1OXhhYjAwOWkzb2xjaXJ6djBybG4ifQ.u7CmDeoRloVGuSUU-MGQmw"
+        }
+      >
+        {breweries?.map((brewery) => (
+          <Marker
+            key={brewery.id}
+            longitude={+brewery.longitude!}
+            latitude={+brewery.latitude!}
+            anchor="bottom"
+            rotationAlignment="map"
+          >
+            <Image src="beerIcon.svg" alt="beer-icon" width="40" height="40" />
+          </Marker>
+        ))}
+      </Map>
     </Flex>
   )
 }
