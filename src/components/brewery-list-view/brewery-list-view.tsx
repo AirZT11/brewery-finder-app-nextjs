@@ -17,7 +17,6 @@ const BreweryListView: FC<BreweryListViewProps> = ({}) => {
   isLoading && <Spinner />
   return (
     <Flex direction="column">
-      <h1>BreweryListView</h1>
       {breweries &&
         breweries.map((brewery) => (
           <BreweryCard key={brewery.id} brewery={brewery} />
