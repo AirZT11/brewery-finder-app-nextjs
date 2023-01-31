@@ -1,8 +1,6 @@
-import { BreweryState } from "../../store/features/brewerySlice"
+import { BreweryState } from "../../store/features/breweriesSlice"
 
-export interface MapViewProps {
-  breweries: BreweryState[]
-}
+export interface MapViewProps {}
 
 export type LatLngLiteral = google.maps.LatLngLiteral
 export type DirectionsResult = google.maps.DirectionsResult

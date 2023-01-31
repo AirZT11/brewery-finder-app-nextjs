@@ -1,5 +1,3 @@
-import { BreweryState } from "../../store/features/brewerySlice"
+import { BreweryState } from "../../store/features/breweriesSlice"
 
-export interface BreweryListViewProps {
-  breweries: BreweryState[]
-}
+export interface BreweryListViewProps {}
