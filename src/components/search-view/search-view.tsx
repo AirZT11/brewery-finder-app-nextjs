@@ -5,8 +5,7 @@ import { SearchViewProps } from "./search-view.props"
 const SearchView: FC<SearchViewProps> = () => {
   return (
     <Flex direction="column">
-      <h1>SearchView</h1>
-      <Input variant="outline" size="small" />
+      <Input placeholder="Search Brewery..." variant="outline" size="lg" />
     </Flex>
   )
 }

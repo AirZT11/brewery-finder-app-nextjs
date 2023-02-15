@@ -22,12 +22,10 @@ const MapPage = () => {
   )
 
   return (
-    <Container>
-      <Flex direction="row">
-        <BreweryListContainerView />
-        <MapView />
-      </Flex>
-    </Container>
+    <Flex direction="row" h="100%" w="100%">
+      <BreweryListContainerView />
+      <MapView />
+    </Flex>
   )
 }
 

@@ -4,9 +4,18 @@ import type { AppProps } from "next/app"
 // import { SessionContextProvider, Session } from "@supabase/auth-helpers-react"
 import { useState } from "react"
 import "mapbox-gl/dist/mapbox-gl.css"
-import { ChakraProvider } from "@chakra-ui/react"
-
+import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 const { wrapper } = require("../store/store")
+
+const colors = {
+  background: {
+    100: "rgb(243, 243, 243)",
+    200: "rgb(247, 247, 247)",
+    300: "rgb(218, 218, 218)",
+  },
+}
+
+const theme = extendTheme({ colors })
 
 // TODO: Set up Auth Supabase
 
@@ -21,7 +30,7 @@ export function MyApp(
     //   supabaseClient={supabase}
     //   initialSession={pageProps.initialSession}
     // >
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Component {...pageProps} />
     </ChakraProvider>
     // </SessionContextProvider>
