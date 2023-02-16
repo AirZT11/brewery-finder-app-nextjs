@@ -1,13 +1,16 @@
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 import Account from "../components/account/account"
-
+import NavBarView from "../components/nav-bar-view/nav-bar-view"
+import { Flex } from "@chakra-ui/react"
 const Home = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
 
   return (
-    <div className="container" style={{ padding: "50px 0 100px 0" }}>
+    <Flex direction="column">
+      <NavBarView />
+      <h1>HOMEPAGE</h1>
       {!session ? (
         <Auth
           supabaseClient={supabase}
@@ -17,7 +20,7 @@ const Home = () => {
       ) : (
         <Account session={session} />
       )}
-    </div>
+    </Flex>
   )
 }
 
