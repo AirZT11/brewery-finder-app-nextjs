@@ -1,6 +1,7 @@
 import { Container, Flex, Heading } from "@chakra-ui/react"
 import { useStore } from "react-redux"
 import BreweryListContainerView from "../components/brewery-list-container-view/brewery-list-container-view"
+import Layout from "../components/layout/layout"
 import MapView from "../components/map-view/map-view"
 import { useUserLocation } from "../hooks/useUserLocation"
 import { useGetBreweriesByLocationQuery } from "../store/features/api/apiSlice"
@@ -22,10 +23,12 @@ const MapPage = () => {
   )
 
   return (
-    <Flex direction="row" h="100%" w="100%">
-      <BreweryListContainerView />
-      <MapView />
-    </Flex>
+    <Layout>
+      <Flex direction="row" h="100%" w="100%">
+        <BreweryListContainerView />
+        <MapView />
+      </Flex>
+    </Layout>
   )
 }
 

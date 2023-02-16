@@ -21,7 +21,7 @@ const NavBarView: FC<NavBarViewProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
   return (
-    <Flex p="4" justifyContent="space-between" bg="background.200">
+    <Flex p="2" justifyContent="space-between" bg="background.200">
       <Heading>BreweryFinder</Heading>
       <>
         <IconButton
