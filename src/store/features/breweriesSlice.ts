@@ -8,7 +8,11 @@ import {
 import { RootState } from "../store"
 import {
   getBreweriesByLocation,
-  searchBreweries,
+  getBrewsByCity,
+  getBrewsByName,
+  getBrewsByState,
+  getBrewsByType,
+  getBrewsByZip,
 } from "./api/breweriesApiSlice"
 
 export interface BreweryState {
@@ -61,7 +65,19 @@ export const breweriesSlice = createSlice({
         state.breweriesList = action.payload
       }
     )
-    builder.addMatcher(searchBreweries.matchFulfilled, (state, action) => {
+    builder.addMatcher(getBrewsByName.matchFulfilled, (state, action) => {
+      state.breweriesList = action.payload
+    })
+    builder.addMatcher(getBrewsByZip.matchFulfilled, (state, action) => {
+      state.breweriesList = action.payload
+    })
+    builder.addMatcher(getBrewsByType.matchFulfilled, (state, action) => {
+      state.breweriesList = action.payload
+    })
+    builder.addMatcher(getBrewsByCity.matchFulfilled, (state, action) => {
+      state.breweriesList = action.payload
+    })
+    builder.addMatcher(getBrewsByState.matchFulfilled, (state, action) => {
       state.breweriesList = action.payload
     })
   },

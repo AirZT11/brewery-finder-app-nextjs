@@ -27,17 +27,39 @@ export const breweriesApi = createApi({
         // providesTags: ["Breweries"],
       }
     ),
-    searchBreweries: builder.query<BreweryState[], string>({
+    getBrewsByName: builder.query<BreweryState[], string>({
       query: (input) => `/breweries/search?query=${input}`,
+    }),
+    getBrewsByZip: builder.query<BreweryState[], string>({
+      query: (input) => `/breweries?by_postal=${input}`,
+    }),
+    getBrewsByType: builder.query<BreweryState[], string>({
+      query: (input) => `/breweries?by_type=${input}`,
+    }),
+    getBrewsByCity: builder.query<BreweryState[], string>({
+      query: (input) => `/breweries?by_city=${input}`,
+    }),
+    getBrewsByState: builder.query<BreweryState[], string>({
+      query: (input) => `/breweries?by_state=${input}`,
     }),
   }),
 })
 
 export const {
   useGetBreweriesByLocationQuery,
-  useSearchBreweriesQuery,
+  useGetBrewsByNameQuery,
+  useGetBrewsByZipQuery,
+  useGetBrewsByTypeQuery,
+  useGetBrewsByCityQuery,
+  useGetBrewsByStateQuery,
   // util: { getRunningQueriesThunk },
 } = breweriesApi
 
-export const { getBreweriesByLocation, searchBreweries } =
-  breweriesApi.endpoints
+export const {
+  getBreweriesByLocation,
+  getBrewsByName,
+  getBrewsByCity,
+  getBrewsByState,
+  getBrewsByType,
+  getBrewsByZip,
+} = breweriesApi.endpoints
