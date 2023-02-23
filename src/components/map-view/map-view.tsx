@@ -2,11 +2,12 @@ import { Box, Flex, Spinner, Text, Icon } from "@chakra-ui/react"
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
-// import { useGetBreweriesByLocationQuery } from "../../store/features/api/apiSlice"
 import { Map, Marker } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
-import { useGetBreweriesByLocationQuery } from "../../store/features/api/apiSlice"
+import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
+import { useSelector } from "react-redux"
+import { useAppSelector } from "../../store/hooks"
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
@@ -38,8 +39,7 @@ const MapView: FC<MapViewProps> = (
   // const [selectedBrew, setSelectedBrew] = useState(null)
 
   const { location, loading } = useUserLocation()
-  const { data: breweries, isLoading: brewsLoading } =
-    useGetBreweriesByLocationQuery(location, { skip: loading })
+  const breweries = useAppSelector((state) => state.breweries.breweriesList)
   const [markerView, toggleMarkerView] = useToggle(true)
 
   if (loading)
@@ -64,6 +64,7 @@ const MapView: FC<MapViewProps> = (
         {breweries?.map((brewery) => (
           <Marker
             key={brewery.id}
+            // The + converts a string into a number
             longitude={+brewery.longitude!}
             latitude={+brewery.latitude!}
             anchor="bottom"

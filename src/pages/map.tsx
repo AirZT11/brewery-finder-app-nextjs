@@ -4,7 +4,7 @@ import BreweryListContainerView from "../components/brewery-list-container-view/
 import Layout from "../components/layout/layout"
 import MapView from "../components/map-view/map-view"
 import { useUserLocation } from "../hooks/useUserLocation"
-import { useGetBreweriesByLocationQuery } from "../store/features/api/apiSlice"
+import { useGetBreweriesByLocationQuery } from "../store/features/api/breweriesApiSlice"
 // import {
 //   getBreweriesByLocation,
 //   getRunningQueriesThunk,

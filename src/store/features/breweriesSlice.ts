@@ -6,7 +6,10 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit"
 import { RootState } from "../store"
-import { apiSlice } from "./api/apiSlice"
+import {
+  getBreweriesByLocation,
+  searchBreweries,
+} from "./api/breweriesApiSlice"
 
 export interface BreweryState {
   id: string
@@ -28,30 +31,16 @@ export interface BreweryState {
   created_at?: string
 }
 
+export interface BreweriesState {
+  breweriesList: BreweryState[]
+}
+
 /**
  * Default state object with initial values.
  */
-const initialState: BreweryState[] = [
-  {
-    id: "",
-    name: "",
-    brewery_type: "",
-    street: "",
-    address_2: "",
-    address_3: "",
-    city: "",
-    state: "",
-    county_province: "",
-    postal_code: "",
-    country: "",
-    longitude: "",
-    latitude: "",
-    phone: "",
-    website_url: "",
-    updated_at: "",
-    created_at: "",
-  },
-]
+const initialState: BreweriesState = {
+  breweriesList: [],
+}
 
 export interface Location {
   lat: number
@@ -61,10 +50,21 @@ export interface Location {
 /**
  * Create a slice as a reducer containing actions.
  */
-export const brewerySlice = createSlice({
-  name: "brewery",
+export const breweriesSlice = createSlice({
+  name: "breweries",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      getBreweriesByLocation.matchFulfilled,
+      (state, action) => {
+        state.breweriesList = action.payload
+      }
+    )
+    builder.addMatcher(searchBreweries.matchFulfilled, (state, action) => {
+      state.breweriesList = action.payload
+    })
+  },
 })
 
 // A small helper of user state for `useSelector` function.
@@ -72,6 +72,6 @@ export const getBreweryState = (state: { brewery: BreweryState }) =>
   state.brewery
 
 // Exports all actions
-export const {} = brewerySlice.actions
+export const {} = breweriesSlice.actions
 
-export default brewerySlice.reducer
+export default breweriesSlice.reducer

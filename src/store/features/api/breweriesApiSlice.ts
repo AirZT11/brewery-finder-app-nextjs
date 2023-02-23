@@ -1,5 +1,5 @@
+import { createSelector } from "@reduxjs/toolkit"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { HYDRATE } from "next-redux-wrapper"
 import { BreweryState } from "../breweriesSlice"
 
 export interface Location {
@@ -7,12 +7,12 @@ export interface Location {
   lng: number
 }
 
-export const apiSlice = createApi({
-  reducerPath: "api",
+export const breweriesApi = createApi({
+  reducerPath: "breweriesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: " https://api.openbrewerydb.org",
   }),
-  tagTypes: ["Breweries"],
+  // tagTypes: ["Breweries"],
   // This is used to enable cross functionality between Next.js and RTK query
   // extractRehydrationInfo(action, { reducerPath }) {
   //   if (action.type === HYDRATE) {
@@ -24,7 +24,7 @@ export const apiSlice = createApi({
       {
         query: (location) =>
           `/breweries?by_dist=${location?.lat},${location?.lng}`,
-        providesTags: ["Breweries"],
+        // providesTags: ["Breweries"],
       }
     ),
     searchBreweries: builder.query<BreweryState[], string>({
@@ -37,6 +37,7 @@ export const {
   useGetBreweriesByLocationQuery,
   useSearchBreweriesQuery,
   // util: { getRunningQueriesThunk },
-} = apiSlice
+} = breweriesApi
 
-export const { getBreweriesByLocation, searchBreweries } = apiSlice.endpoints
+export const { getBreweriesByLocation, searchBreweries } =
+  breweriesApi.endpoints
