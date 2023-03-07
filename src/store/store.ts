@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import usersReducer from "./features/userSlice"
 import breweriesReducer from "./features/breweriesSlice"
+import ratingsReducer from "./features/ratingsSlice"
 import { breweriesApi } from "./features/api/breweriesApiSlice"
 import { createWrapper } from "next-redux-wrapper"
 import { ratingsApi } from "./features/api/ratingsApiSlice"
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   [ratingsApi.reducerPath]: ratingsApi.reducer,
   users: usersReducer,
   breweries: breweriesReducer,
+  ratings: ratingsReducer,
 })
 
 /**

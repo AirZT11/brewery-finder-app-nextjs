@@ -14,14 +14,13 @@ const BreweryListView: FC<BreweryListViewProps> = ({}) => {
   useGetBreweriesByLocationQuery(location, {
     skip: loading,
   })
+  // TODO: Move this logic into the ratings slice
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
   const breweryIds = breweries.map((brew) => brew.id)
-  const ratings = useGetRatingsQuery(breweryIds, {
+  useGetRatingsQuery(breweryIds, {
     skip: breweryIds.length < 1,
   })
-  console.log("!@ ratings from RTK Hook: ", ratings)
   const user = useUser()
-  // console.log("!@ user", user)
 
   loading && <Spinner />
   return (
