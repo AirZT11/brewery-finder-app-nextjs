@@ -17,8 +17,6 @@ const colors = {
 
 const theme = extendTheme({ colors })
 
-// TODO: Set up Auth Supabase
-
 function MyApp({
   Component,
   pageProps,
