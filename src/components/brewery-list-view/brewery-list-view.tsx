@@ -1,7 +1,5 @@
 import { Flex, Spinner } from "@chakra-ui/react"
-import { useUser } from "@supabase/auth-helpers-react"
 import { FC } from "react"
-import { useSelector } from "react-redux"
 import { useUserLocation } from "../../hooks/useUserLocation"
 import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import { useGetRatingsQuery } from "../../store/features/api/ratingsApiSlice"
@@ -20,14 +18,13 @@ const BreweryListView: FC<BreweryListViewProps> = ({}) => {
   useGetRatingsQuery(breweryIds, {
     skip: breweryIds.length < 1,
   })
-  const user = useUser()
 
   loading && <Spinner />
   return (
     <Flex direction="column">
       {breweries &&
         breweries.map((brewery) => (
-          <BreweryCard key={brewery.id} brewery={brewery} user={user} />
+          <BreweryCard key={brewery.id} brewery={brewery} />
         ))}
     </Flex>
   )

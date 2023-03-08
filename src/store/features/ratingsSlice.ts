@@ -1,19 +1,4 @@
-import {
-  createEntityAdapter,
-  createSelector,
-  createSlice,
-  Draft,
-  PayloadAction,
-} from "@reduxjs/toolkit"
-import { RootState } from "../store"
-import {
-  getBreweriesByLocation,
-  getBrewsByCity,
-  getBrewsByName,
-  getBrewsByState,
-  getBrewsByType,
-  getBrewsByZip,
-} from "./api/breweriesApiSlice"
+import { createSlice } from "@reduxjs/toolkit"
 import { getRatings } from "./api/ratingsApiSlice"
 
 export interface RatingProps {
