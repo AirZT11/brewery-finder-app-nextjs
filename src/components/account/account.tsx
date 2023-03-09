@@ -4,6 +4,7 @@ import {
   useSupabaseClient,
   Session,
 } from "@supabase/auth-helpers-react"
+import Avatar from "../avatar/avatar"
 
 interface AccountProps {
   session: Session
@@ -78,6 +79,15 @@ export default function Account({ session }: AccountProps) {
 
   return (
     <div className="form-widget">
+      <Avatar
+        uid={user?.id}
+        url={avatar_url}
+        size={150}
+        onUpload={(url) => {
+          setAvatarUrl(url)
+          updateProfile({ username, avatar_url: url })
+        }}
+      />
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" type="text" value={session.user.email} disabled />

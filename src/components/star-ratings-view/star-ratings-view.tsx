@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure } from "@chakra-ui/react"
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect } from "react"
 import { Rating } from "react-simple-star-rating"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
 import ReviewPopupView from "../review-popup-view/review-popup-view"
