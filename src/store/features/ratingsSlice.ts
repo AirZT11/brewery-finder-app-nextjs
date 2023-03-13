@@ -3,7 +3,7 @@ import { getRatings } from "./api/ratingsApiSlice"
 
 export interface RatingProps {
   id: string
-  created_at: Date
+  created_at: string
   rating: number
   review?: string
   user_id: string

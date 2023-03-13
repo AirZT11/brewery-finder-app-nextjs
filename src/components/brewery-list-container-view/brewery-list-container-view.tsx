@@ -9,7 +9,7 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
     <Flex
       direction="column"
       background="background.100"
-      p="8"
+      // p="8"
       h="100vh"
       overflow="scroll"
     >

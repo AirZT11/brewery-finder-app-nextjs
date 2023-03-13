@@ -1,4 +1,4 @@
-import { Flex, Heading, Text } from "@chakra-ui/react"
+import { Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
 import Link from "next/link"
 import { FC, useState } from "react"
 import { useSelector } from "react-redux"
@@ -7,12 +7,17 @@ import {
   RatingsState,
   selectRating,
 } from "../../store/features/ratingsSlice"
+import BreweryInfoView from "../brewery-info-view/brewery-info-view"
+import BreweryInfoPopupView from "../brewery-info-popup-view/brewery-info-popup-view"
+import ReviewPopupView from "../brewery-info-popup-view/brewery-info-popup-view"
 import StarRatingsView from "../star-ratings-view/star-ratings-view"
 import BreweryCardContext from "./brewery-card-context"
 import { BreweryCardProps } from "./brewery-card.props"
 
 const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   const [rating, setRating] = useState(0)
+  const { isOpen, onClose, onOpen } = useDisclosure()
+
   const breweryRatings = useSelector((state: { ratings: RatingsState }) =>
     selectRating(state, brewery.id)
   )
@@ -31,15 +36,26 @@ const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
     <BreweryCardContext.Provider
       value={{ brewery, breweryRatings, averageRating, rating, setRating }}
     >
-      <Flex my="4" direction="column">
-        <Link href={`brewery/${brewery.id}`}>
-          <Heading size="lg">{brewery.name}</Heading>
-        </Link>
+      <Flex
+        onClick={onOpen}
+        py="4"
+        _hover={{
+          background: "background.300",
+          transitionDuration: "0.1s",
+          transitionTimingFunction: "ease-in-out",
+        }}
+        cursor="pointer"
+      >
+        <BreweryInfoView />
 
-        <Text>
-          {brewery.city}, {brewery.state}
-        </Text>
-        <StarRatingsView enableReviewPopup />
+        <BreweryInfoPopupView
+          {...{
+            onOpen,
+            onClose,
+            isOpen,
+            // onCloseComplete,
+          }}
+        />
       </Flex>
     </BreweryCardContext.Provider>
   )

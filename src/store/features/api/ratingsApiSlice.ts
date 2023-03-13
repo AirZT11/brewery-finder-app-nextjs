@@ -47,6 +47,7 @@ export const ratingsApi = createApi({
       // }),
       queryFn: async (rating) => {
         const { data } = await supabase.from("ratings").insert(rating).single()
+        console.log("!@ postRating data", data)
         return { data }
       },
     }),
