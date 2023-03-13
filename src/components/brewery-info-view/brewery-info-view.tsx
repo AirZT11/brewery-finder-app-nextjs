@@ -1,18 +1,29 @@
 import { Flex, Heading, Text } from "@chakra-ui/react"
 import { FC } from "react"
+import { Rating } from "react-simple-star-rating"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
-import StarRatingsView from "../star-ratings-view/star-ratings-view"
 import { BreweryInfoViewProps } from "./brewery-info-view.props"
 
 const BreweryInfoView: FC<BreweryInfoViewProps> = ({}) => {
-  const { brewery } = useBreweryCardContext()
+  const { brewery, breweryRatings, averageRating } = useBreweryCardContext()
+  const numOf = breweryRatings.length
 
   return (
     <Flex direction="column">
       {/* <Link href={`brewery/${brewery.id}`}> */}
       <Heading size="lg">{brewery.name}</Heading>
       {/* </Link> */}
-      <StarRatingsView readOnly />
+      <Flex align="end">
+        <Rating
+          initialValue={averageRating}
+          readonly
+          transition
+          size={24}
+          emptyStyle={{ display: "flex" }}
+          fillStyle={{ display: "-webkit-inline-box" }}
+        />
+        <Text>{`(${numOf})`}</Text>
+      </Flex>
       <Text>
         {brewery.city}, {brewery.state}
       </Text>

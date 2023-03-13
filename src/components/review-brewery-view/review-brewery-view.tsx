@@ -9,24 +9,32 @@ import {
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
 import { FC, useState } from "react"
+import { Rating } from "react-simple-star-rating"
 import { usePostRatingMutation } from "../../store/features/api/ratingsApiSlice"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
-import StarRatingsView from "../star-ratings-view/star-ratings-view"
 import { ReviewBreweryViewProps } from "./review-brewery-view.props"
 
 /** Displays a form to review a brewery */
 const ReviewBreweryView: FC<ReviewBreweryViewProps> = () => {
   const [review, setReview] = useState("")
+  const [rating, setRating] = useState(0)
   const [postRating, result] = usePostRatingMutation()
   const user = useUser()
-  const { brewery, rating, setRating } = useBreweryCardContext()
+  const { brewery } = useBreweryCardContext()
   const supabase = useSupabaseClient()
 
   return (
     <Flex direction="column">
       {user ? (
         <>
-          <StarRatingsView />
+          <Rating
+            initialValue={rating}
+            onClick={(val) => setRating(val)}
+            transition
+            size={32}
+            emptyStyle={{ display: "flex" }}
+            fillStyle={{ display: "-webkit-inline-box" }}
+          />
           <FormControl>
             <Input
               my="4"

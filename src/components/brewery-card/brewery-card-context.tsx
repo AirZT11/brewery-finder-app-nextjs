@@ -6,8 +6,6 @@ const BreweryCardContext = createContext<{
   brewery: BreweryState
   breweryRatings: RatingProps[]
   averageRating: number
-  rating: number
-  setRating: Dispatch<SetStateAction<number>>
 } | null>(null)
 
 export function useBreweryCardContext() {
