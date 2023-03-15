@@ -32,13 +32,15 @@ const BreweryInfoPopupView: FC<BreweryInfoPopupViewProps> = ({
 }) => {
   const [reviewBrewery, setReviewBrewery] = useState(false)
   const { isSmallView } = useWindowSize()
-  const { brewery } = useBreweryCardContext()
+  const { brewery, userRatingExist } = useBreweryCardContext()
   const handleReviewDisplay = () => setReviewBrewery(true)
 
   const breweryContent = !reviewBrewery ? (
     <>
       <BreweryInfoView />
-      <Button onClick={handleReviewDisplay}>Write a review</Button>
+      <Button onClick={handleReviewDisplay}>
+        {userRatingExist ? "Edit your review" : "Write a review"}
+      </Button>
       <ReviewListView />
     </>
   ) : (
@@ -61,7 +63,7 @@ const BreweryInfoPopupView: FC<BreweryInfoPopupViewProps> = ({
         <DrawerContent px="8" py="6">
           {/* <DrawerCloseButton /> */}
           <DrawerBody>{breweryContent}</DrawerBody>
-          <DrawerFooter p="0">
+          <DrawerFooter p="0" mt="4">
             <Button onClick={onClose}>Cancel</Button>
           </DrawerFooter>
         </DrawerContent>
@@ -79,7 +81,7 @@ const BreweryInfoPopupView: FC<BreweryInfoPopupViewProps> = ({
       <ModalContent px="8" py="6">
         {/* <ModalCloseButton /> */}
         {breweryContent}
-        <ModalFooter p="0">
+        <ModalFooter p="0" mt="4">
           <Button onClick={onClose}>Cancel</Button>
         </ModalFooter>
       </ModalContent>

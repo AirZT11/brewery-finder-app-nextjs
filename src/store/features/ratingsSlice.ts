@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { UserProfileProps } from "./api/profilesApiSlice"
 import { getRatings } from "./api/ratingsApiSlice"
 
 export interface RatingProps {
   id: string
-  created_at: string
+  created_at: Date
   rating: number
   review?: string
   user_id: string
   brewery_id: string
   brewery_name?: string
+  userProfile: UserProfileProps
 }
 
 export interface RatingsState {

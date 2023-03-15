@@ -10,9 +10,11 @@ import BreweryInfoView from "../brewery-info-view/brewery-info-view"
 import BreweryInfoPopupView from "../brewery-info-popup-view/brewery-info-popup-view"
 import BreweryCardContext from "./brewery-card-context"
 import { BreweryCardProps } from "./brewery-card.props"
+import { useUser } from "@supabase/auth-helpers-react"
 
 const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const user = useUser()
 
   const breweryRatings = useSelector((state: { ratings: RatingsState }) =>
     selectRating(state, brewery.id)
@@ -28,9 +30,24 @@ const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   }
   const averageRating = getAverageRating(breweryRatings)
 
+  /**
+   * TODO: This logic should be different and should live somewhere else
+   * Determines whether user has already reviewed this brewery
+   */
+  const userRating = breweryRatings.filter(
+    (brewery) => brewery.user_id === user?.id
+  )
+  const userRatingExist = !!userRating.length
+
   return (
     <BreweryCardContext.Provider
-      value={{ brewery, breweryRatings, averageRating }}
+      value={{
+        brewery,
+        breweryRatings,
+        userRating,
+        userRatingExist,
+        averageRating,
+      }}
     >
       <Flex
         onClick={onOpen}

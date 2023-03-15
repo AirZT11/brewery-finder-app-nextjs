@@ -1,16 +1,18 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import usersReducer from "./features/userSlice"
+import userReducer from "./features/userSlice"
 import breweriesReducer from "./features/breweriesSlice"
 import ratingsReducer from "./features/ratingsSlice"
 import { breweriesApi } from "./features/api/breweriesApiSlice"
 import { createWrapper } from "next-redux-wrapper"
 import { ratingsApi } from "./features/api/ratingsApiSlice"
+import { profilesApi } from "./features/api/profilesApiSlice"
 
 const rootReducer = combineReducers({
   [breweriesApi.reducerPath]: breweriesApi.reducer,
   [ratingsApi.reducerPath]: ratingsApi.reducer,
-  users: usersReducer,
+  [profilesApi.reducerPath]: profilesApi.reducer,
+  user: userReducer,
   breweries: breweriesReducer,
   ratings: ratingsReducer,
 })
@@ -26,7 +28,8 @@ export const makeStore = () =>
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
         breweriesApi.middleware,
-        ratingsApi.middleware
+        ratingsApi.middleware,
+        profilesApi.middleware
       ),
   })
 

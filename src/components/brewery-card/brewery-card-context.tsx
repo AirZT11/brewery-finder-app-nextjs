@@ -5,6 +5,8 @@ import { RatingProps } from "../../store/features/ratingsSlice"
 const BreweryCardContext = createContext<{
   brewery: BreweryState
   breweryRatings: RatingProps[]
+  userRating: RatingProps[]
+  userRatingExist: boolean
   averageRating: number
 } | null>(null)
 

@@ -34,11 +34,24 @@ export const ratingsApi = createApi({
       queryFn: async (breweryIds) => {
         const { data } = await supabase
           .from("ratings")
-          .select()
+          .select("*, userProfile:profiles(*)")
           .in("brewery_id", breweryIds)
+        console.log(data)
         return { data }
       },
     }),
+    /** TODO: Used to check if user has already reviewed a specific brewery */
+    // getUserBreweryRating: builder.query({
+    //   queryFn: async (breweryId) => {
+    //     const { data } = await supabase
+    //       .from("ratings")
+    //       .select("*")
+    //       .eq("brewery_id", breweryId)
+    //     // .eq("user_id", userId)
+    //     console.log("!@ user rated brewery", data)
+    //     return { data }
+    //   },
+    // }),
     postRating: builder.mutation({
       // query: (rating) => ({
       //   url: `/ratings`,
@@ -47,13 +60,30 @@ export const ratingsApi = createApi({
       // }),
       queryFn: async (rating) => {
         const { data } = await supabase.from("ratings").insert(rating).single()
-        console.log("!@ postRating data", data)
+        return { data }
+      },
+    }),
+    updateRating: builder.mutation({
+      // query: (rating) => ({
+      //   url: `/ratings`,
+      //   method: "POST",
+      //   body: rating,
+      // }),
+      queryFn: async (updatedRating) => {
+        const { data } = await supabase
+          .from("ratings")
+          .update(updatedRating)
+          .eq("id", updatedRating.id)
         return { data }
       },
     }),
   }),
 })
 
-export const { useGetRatingsQuery, usePostRatingMutation } = ratingsApi
+export const {
+  useGetRatingsQuery,
+  usePostRatingMutation,
+  useUpdateRatingMutation,
+} = ratingsApi
 
-export const { getRatings, postRating } = ratingsApi.endpoints
+export const { getRatings, postRating, updateRating } = ratingsApi.endpoints

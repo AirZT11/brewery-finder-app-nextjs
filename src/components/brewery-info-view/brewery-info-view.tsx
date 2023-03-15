@@ -14,6 +14,7 @@ const BreweryInfoView: FC<BreweryInfoViewProps> = ({}) => {
       <Heading size="lg">{brewery.name}</Heading>
       {/* </Link> */}
       <Flex align="end">
+        <Text>{averageRating}</Text>
         <Rating
           initialValue={averageRating}
           readonly
@@ -24,10 +25,10 @@ const BreweryInfoView: FC<BreweryInfoViewProps> = ({}) => {
         />
         <Text>{`(${numOf})`}</Text>
       </Flex>
-      <Text>
+      <Text fontSize="sm">
         {brewery.city}, {brewery.state}
       </Text>
-      <Text>
+      <Text fontSize="sm">
         {brewery.street}, {brewery.state}, {brewery.postal_code}
       </Text>
     </Flex>
