@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { UserProfileProps } from "./api/profilesApiSlice"
-import { getRatings } from "./api/ratingsApiSlice"
+import { getRatings, postRating } from "./api/ratingsApiSlice"
 
 export interface RatingProps {
   id: string
@@ -35,8 +35,8 @@ export const ratingsSlice = createSlice({
     builder.addMatcher(getRatings.matchFulfilled, (state, action) => {
       state.ratingsList = action.payload
     })
-    // builder.addMatcher(getBrewsByName.matchFulfilled, (state, action) => {
-    //   state.breweriesList = action.payload
+    // builder.addMatcher(postRating.matchFulfilled, (state, action) => {
+    //   state.ratingsList = action.payload
     // })
   },
 })
