@@ -1,4 +1,6 @@
 import { Dispatch, SetStateAction } from "react"
 import { BreweryState } from "../../store/features/breweriesSlice"
 
-export interface ReviewBreweryViewProps {}
+export interface ReviewBreweryViewProps {
+  onClose?: () => void
+}

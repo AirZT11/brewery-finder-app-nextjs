@@ -46,7 +46,7 @@ const BreweryInfoPopupView: FC<BreweryInfoPopupViewProps> = ({
   ) : (
     <>
       <BreweryInfoView />
-      <ReviewBreweryView />
+      <ReviewBreweryView onClose={onClose} />
     </>
   )
 

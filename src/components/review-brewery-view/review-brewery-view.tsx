@@ -18,7 +18,7 @@ import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
 import { ReviewBreweryViewProps } from "./review-brewery-view.props"
 
 /** Displays a form to review a brewery */
-const ReviewBreweryView: FC<ReviewBreweryViewProps> = () => {
+const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
   const [review, setReview] = useState("")
   const [rating, setRating] = useState(0)
   const [postRating, result] = usePostRatingMutation()
@@ -58,7 +58,7 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = () => {
             />
           </FormControl>
           <Button
-            onClick={() =>
+            onClick={() => {
               userRatingExist
                 ? updateRating({
                     rating,
@@ -71,7 +71,8 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = () => {
                     user_id: user.id,
                     brewery_id: brewery.id,
                   })
-            }
+              onClose && onClose()
+            }}
           >
             Submit Rating
           </Button>
