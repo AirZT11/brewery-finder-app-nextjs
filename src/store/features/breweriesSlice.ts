@@ -27,8 +27,8 @@ export interface BreweryState {
   county_province?: string | null
   postal_code?: string
   country: string
-  longitude?: string
-  latitude?: string
+  longitude: number
+  latitude: number
   phone?: string
   website_url?: string
   updated_at?: string

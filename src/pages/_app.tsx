@@ -5,6 +5,7 @@ import { SessionContextProvider, Session } from "@supabase/auth-helpers-react"
 import { useState } from "react"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+import { MapProvider } from "react-map-gl"
 const { wrapper } = require("../store/store")
 
 const colors = {
@@ -29,9 +30,11 @@ function MyApp({
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <MapProvider>
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </MapProvider>
     </SessionContextProvider>
   )
 }

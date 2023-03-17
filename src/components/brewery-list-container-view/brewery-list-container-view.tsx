@@ -10,7 +10,7 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
       direction="column"
       background="background.100"
       // p="8"
-      h="100vh"
+      h="100%"
       overflow="scroll"
     >
       <SearchView />
