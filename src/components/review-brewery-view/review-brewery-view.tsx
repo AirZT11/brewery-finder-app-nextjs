@@ -4,6 +4,7 @@ import {
   FormControl,
   Text,
   Textarea,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react"
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
@@ -11,9 +12,11 @@ import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
 import { FC, useEffect, useState } from "react"
 import { Rating } from "react-simple-star-rating"
 import {
+  useDeleteRatingMutation,
   usePostRatingMutation,
   useUpdateRatingMutation,
 } from "../../store/features/api/ratingsApiSlice"
+import { AlertView } from "../alert-view/alert-view"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
 import { ReviewBreweryViewProps } from "./review-brewery-view.props"
 
@@ -21,13 +24,26 @@ import { ReviewBreweryViewProps } from "./review-brewery-view.props"
 const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
   const [review, setReview] = useState("")
   const [rating, setRating] = useState(0)
-  const [postRating, result] = usePostRatingMutation()
-  const [updateRating] = useUpdateRatingMutation()
-  const user = useUser()
+  const {
+    isOpen: alertIsOpen,
+    onOpen: openAlert,
+    onClose: closeAlert,
+  } = useDisclosure()
+
   const { brewery, userRating, userRatingExist } = useBreweryCardContext()
+  const [postRating, postResult] = usePostRatingMutation()
+  const [updateRating, updateResult] = useUpdateRatingMutation()
+  const [deleteRating, deleteResult] = useDeleteRatingMutation()
+
+  console.log("!@ updateResult", updateResult)
+
+  const user = useUser()
   const supabase = useSupabaseClient()
   const toast = useToast()
 
+  const noRating = rating === 0
+
+  // If local user rating already exists, set the initial values to their rating/review
   useEffect(() => {
     userRatingExist && setRating(userRating[0].rating)
     userRatingExist && userRating[0].review && setReview(userRating[0].review)
@@ -44,27 +60,25 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
             size={32}
             emptyStyle={{ display: "flex" }}
             fillStyle={{ display: "-webkit-inline-box" }}
-            // showTooltip
-            // tooltipDefaultText="0"
-            // tooltipStyle={{ fontSize: "12px" }}
           />
-          <FormControl>
-            <Textarea
-              resize="vertical"
-              my="4"
-              placeholder="Write a review..."
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-            />
-          </FormControl>
+
+          <Textarea
+            resize="vertical"
+            my="4"
+            placeholder="Write a review..."
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+          />
+
           <Button
+            isDisabled={noRating}
             onClick={() => {
               userRatingExist
                 ? updateRating({
                     rating,
                     review,
                     id: userRating[0].id,
-                  })
+                  }).then((e) => console.log("!@ UPDATED", e))
                 : postRating({
                     rating,
                     review,
@@ -76,6 +90,19 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
           >
             Submit Rating
           </Button>
+          {userRatingExist && (
+            <Button onClick={openAlert} colorScheme="red">
+              Delete Rating
+            </Button>
+          )}
+          <AlertView
+            header={"Delete your rating?"}
+            body={"Are you sure you want to delete your rating?"}
+            alertIsOpen={alertIsOpen}
+            closeAlert={closeAlert}
+            onSubmit={() => deleteRating(userRating[0].id)}
+            closeModal={onClose}
+          />
         </>
       ) : (
         <>
