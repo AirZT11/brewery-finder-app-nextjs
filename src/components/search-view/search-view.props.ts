@@ -1,1 +1,3 @@
-export interface SearchViewProps {}
+export interface SearchViewProps {
+  navigateToMapOnSubmit?: boolean
+}

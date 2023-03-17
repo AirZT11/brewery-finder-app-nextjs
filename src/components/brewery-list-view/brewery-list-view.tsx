@@ -9,9 +9,9 @@ import { BreweryListViewProps } from "./brewery-list-view.props"
 
 const BreweryListView: FC<BreweryListViewProps> = ({}) => {
   const { location, loading } = useUserLocation()
-  useGetBreweriesByLocationQuery(location, {
-    skip: loading,
-  })
+  // useGetBreweriesByLocationQuery(location, {
+  //   skip: loading,
+  // })
   // TODO: Move this logic into the ratings slice
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
   const breweryIds = breweries.map((brew) => brew.id)

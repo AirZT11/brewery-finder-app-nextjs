@@ -19,10 +19,12 @@ import Link from "next/link"
 
 const NavBarView: FC<NavBarViewProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = useRef()
+  const btnRef = useRef<any>()
   return (
-    <Flex p="2" justifyContent="space-between" bg="background.200">
-      <Heading>BreweryFinder</Heading>
+    <Flex w="full" p="2" justifyContent="space-between" bg="background.100">
+      <Link href="/">
+        <Heading>BreweryFinder</Heading>
+      </Link>
       <>
         <IconButton
           ref={btnRef}

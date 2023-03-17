@@ -1,12 +1,6 @@
 import {
   Flex,
-  FormLabel,
-  HStack,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Radio,
   RadioGroup,
   Select,
@@ -23,27 +17,26 @@ import {
 } from "../../store/features/api/breweriesApiSlice"
 import { SearchViewProps } from "./search-view.props"
 import debounce from "lodash.debounce"
+import { useRouter } from "next/router"
 
-const SearchView: FC<SearchViewProps> = ({}) => {
+const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const [input, setInput] = useState("")
   const [searchBy, setSearchBy] = useState("Name")
 
   const [getBrewsByName] = useLazyGetBrewsByNameQuery()
-  // ,{skip: !input || searchBy !== "Name",}
   const [getBrewsByZip] = useLazyGetBrewsByZipQuery()
-  // ,{skip: !input || searchBy !== "Zip",}
   const [getBrewsByCity] = useLazyGetBrewsByCityQuery()
-  // ,{skip: !input || searchBy !== "City",}
   const [getBrewsByState] = useLazyGetBrewsByStateQuery()
-  // ,{skip: !input || searchBy !== "State",}
   const [getBrewsByType] = useLazyGetBrewsByTypeQuery()
-  // ,{skip: !input || searchBy !== "Type",}
 
+  const router = useRouter()
+
+  // TODO: Utilize debounce for autocomplete via BreweryDB API
   // const onInput = debounce((e) => {
   //   setInput(e.target.value)
   // }, 500)
 
-  const onInput = (e) => setInput(e.target.value)
+  const onInput = (e: any) => setInput(e.target.value)
 
   const onSelect = (e: any) => {
     // setInput("")
@@ -56,6 +49,8 @@ const SearchView: FC<SearchViewProps> = ({}) => {
     searchBy === "City" && getBrewsByCity(input)
     searchBy === "State" && getBrewsByState(input)
     searchBy === "Type" && getBrewsByType(input)
+
+    navigateToMapOnSubmit && router.push("/map")
   }
 
   return (
@@ -78,6 +73,7 @@ const SearchView: FC<SearchViewProps> = ({}) => {
           onChange={(e) => {
             const value = e.target.value.toLowerCase()
             setInput(value)
+            handleSubmit()
           }}
         >
           <option>Micro</option>

@@ -14,13 +14,13 @@ import { wrapper } from "../store/store"
 
 const MapPage = () => {
   const { location, error, loading } = useUserLocation()
-  const { data } = useGetBreweriesByLocationQuery(
-    {
-      lat: location ? location.lat : 40.678177,
-      lng: location ? location.lng : -73.94416,
-    },
-    { skip: loading }
-  )
+  // const { data } = useGetBreweriesByLocationQuery(
+  //   {
+  //     lat: location ? location.lat : 40.678177,
+  //     lng: location ? location.lng : -73.94416,
+  //   },
+  //   { skip: loading }
+  // )
 
   return (
     <Layout>
