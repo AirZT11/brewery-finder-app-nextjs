@@ -1,11 +1,4 @@
-import {
-  createEntityAdapter,
-  createSelector,
-  createSlice,
-  Draft,
-  PayloadAction,
-} from "@reduxjs/toolkit"
-import { RootState } from "../store"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
   getBreweriesByLocation,
   getBrewsByCity,
@@ -15,6 +8,10 @@ import {
   getBrewsByZip,
 } from "./api/breweriesApiSlice"
 
+export interface Location {
+  lat: number
+  lng: number
+}
 export interface BreweryState {
   id: string
   name: string
@@ -37,6 +34,7 @@ export interface BreweryState {
 
 export interface BreweriesState {
   breweriesList: BreweryState[]
+  selectedBrewery: BreweryState | null
 }
 
 /**
@@ -44,11 +42,7 @@ export interface BreweriesState {
  */
 const initialState: BreweriesState = {
   breweriesList: [],
-}
-
-export interface Location {
-  lat: number
-  lng: number
+  selectedBrewery: null,
 }
 
 /**
@@ -57,7 +51,13 @@ export interface Location {
 export const breweriesSlice = createSlice({
   name: "breweries",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedBrewery(state, action: PayloadAction<BreweryState>) {
+      console.log("!@ Dispatch setSelectedBrewery", state, action)
+      state.selectedBrewery = action.payload
+      // console.log("!@ selectedBrewery state", state.selectedBrewery)
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(
       getBreweriesByLocation.matchFulfilled,
@@ -88,6 +88,6 @@ export const getBreweryState = (state: { brewery: BreweryState }) =>
   state.brewery
 
 // Exports all actions
-export const {} = breweriesSlice.actions
+export const { setSelectedBrewery } = breweriesSlice.actions
 
 export default breweriesSlice.reducer

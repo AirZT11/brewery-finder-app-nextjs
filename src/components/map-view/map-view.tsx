@@ -6,15 +6,19 @@ import { GeolocateControl, Map, MapRef, Marker, useMap } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
-import { useSelector } from "react-redux"
-import { useAppSelector } from "../../store/hooks"
-import { BreweryState } from "../../store/features/breweriesSlice"
-import { ChevronDownIcon, TriangleDownIcon } from "@chakra-ui/icons"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import {
+  BreweryState,
+  setSelectedBrewery,
+} from "../../store/features/breweriesSlice"
+import { TriangleDownIcon } from "@chakra-ui/icons"
+import { BsCircleFill } from "react-icons/bs"
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
 const MapView: FC<MapViewProps> = ({}) => {
   // const [selectedBrew, setSelectedBrew] = useState(null)
+  const [markerView, toggleMarkerView] = useToggle(true)
   const mapRef = useRef<MapRef>()
 
   const { location, loading } = useUserLocation()
@@ -23,8 +27,11 @@ const MapView: FC<MapViewProps> = ({}) => {
     longitude: location?.lng || -73.94416,
     zoom: 6,
   })
+  // const dispatch = useAppDispatch()
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
-  const [markerView, toggleMarkerView] = useToggle(true)
+  const selectedBrew = useAppSelector(
+    (state) => state.breweries.selectedBrewery
+  )
 
   // Checks each brewery's marker position and sees if it within the current map's viewport
   // const checkPositionBounds = (breweriesArr: BreweryState[]) => {
@@ -39,26 +46,45 @@ const MapView: FC<MapViewProps> = ({}) => {
   //   })
   // }
 
-  const { myMapA } = useMap()
-
   const breweryMarkers = useMemo(
     () =>
-      breweries?.map((brewery) => (
-        <Marker
-          key={brewery.id}
-          // The + converts a string into a number
-          longitude={+brewery.longitude!}
-          latitude={+brewery.latitude!}
-          anchor="bottom"
-          rotationAlignment="map"
-        >
-          <Flex direction="column" align="center">
-            <Image src="beerIcon.svg" alt="beer-icon" width="30" height="30" />
-            <TriangleDownIcon boxSize={4} opacity=".5" />
-          </Flex>
-        </Marker>
-      )),
-    [breweries]
+      breweries?.map((brewery) => {
+        const selected = brewery.id === selectedBrew?.id
+        return (
+          <Marker
+            key={brewery.id}
+            // The + converts a string into a number
+            longitude={+brewery.longitude!}
+            latitude={+brewery.latitude!}
+            anchor="bottom"
+            rotationAlignment="map"
+          >
+            <Flex direction="column" align="center">
+              {selected && (
+                <Icon
+                  as={BsCircleFill}
+                  boxSize={10}
+                  position="absolute"
+                  color="red"
+                  bottom={2.5}
+                  right={-1}
+                  // top={-1}
+                  opacity=".5"
+                />
+              )}
+              <Image
+                src="beerIcon.svg"
+                alt="beer-icon"
+                width="30"
+                height="30"
+              />
+
+              <TriangleDownIcon boxSize={4} opacity=".5" />
+            </Flex>
+          </Marker>
+        )
+      }),
+    [breweries, selectedBrew]
   )
 
   if (loading)
@@ -71,7 +97,6 @@ const MapView: FC<MapViewProps> = ({}) => {
     <Flex w="100%" h="100%" /* filter="blur(10px)" */>
       <Map
         id="myMapA"
-        onRender={() => console.log("!@ MAP RENDERED")}
         // ref={mapRef}
         reuseMaps
         minZoom={3.5}

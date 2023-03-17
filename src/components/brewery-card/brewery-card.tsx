@@ -1,4 +1,4 @@
-import { Flex, useDisclosure } from "@chakra-ui/react"
+import { Flex, IconButton, useDisclosure } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { useSelector } from "react-redux"
 import {
@@ -11,10 +11,15 @@ import BreweryInfoPopupView from "../brewery-info-popup-view/brewery-info-popup-
 import BreweryCardContext from "./brewery-card-context"
 import { BreweryCardProps } from "./brewery-card.props"
 import { useUser } from "@supabase/auth-helpers-react"
+import { useMap } from "react-map-gl"
+import { GrMapLocation } from "react-icons/gr"
+import { useAppDispatch } from "../../store/hooks"
+import { setSelectedBrewery } from "../../store/features/breweriesSlice"
 
 const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const user = useUser()
+  const { myMapA } = useMap()
 
   const breweryRatings = useSelector((state: { ratings: RatingsState }) =>
     selectRating(state, brewery.id)
@@ -39,6 +44,20 @@ const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   )
   const userRatingExist = !!userRating.length
 
+  const dispatch = useAppDispatch()
+  const handleClick = () => {
+    onOpen()
+    dispatch(setSelectedBrewery(brewery))
+  }
+
+  const handleLocateClick = () =>
+    myMapA?.flyTo({
+      center: [brewery.longitude, brewery.latitude],
+      zoom: 14,
+      speed: 1.2,
+      curve: 1,
+    })
+
   return (
     <BreweryCardContext.Provider
       value={{
@@ -50,17 +69,26 @@ const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
       }}
     >
       <Flex
-        onClick={onOpen}
-        py="4"
+        onClick={handleClick}
+        p="4"
         _hover={{
           background: "background.300",
           transitionDuration: "0.1s",
-          transitionTimingFunction: "ease-in-out",
+          // transitionTimingFunction: "ease-in-out",
         }}
         cursor="pointer"
+        justify="space-between"
       >
         <BreweryInfoView />
-
+        <Flex direction="column" align="end" ml="2">
+          <IconButton
+            zIndex="99999"
+            onClick={handleLocateClick}
+            aria-label="Locate brewery on map"
+            icon={<GrMapLocation />}
+            variant="outline"
+          />
+        </Flex>
         <BreweryInfoPopupView
           {...{
             onOpen,

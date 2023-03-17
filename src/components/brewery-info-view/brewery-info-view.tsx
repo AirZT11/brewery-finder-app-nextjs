@@ -1,17 +1,20 @@
-import { Flex, Heading, Text } from "@chakra-ui/react"
+import { Flex, Heading, IconButton, Text } from "@chakra-ui/react"
 import { FC } from "react"
+import { useMap } from "react-map-gl"
 import { Rating } from "react-simple-star-rating"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
 import { BreweryInfoViewProps } from "./brewery-info-view.props"
+import { GrMapLocation } from "react-icons/gr"
 
 const BreweryInfoView: FC<BreweryInfoViewProps> = ({}) => {
   const { brewery, breweryRatings, averageRating } = useBreweryCardContext()
   const numOf = breweryRatings.length
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" w="100%">
       {/* <Link href={`brewery/${brewery.id}`}> */}
-      <Heading size="lg">{brewery.name}</Heading>
+      <Heading size="md">{brewery.name}</Heading>
+
       {/* </Link> */}
       <Flex align="end">
         <Text>{averageRating}</Text>
@@ -26,10 +29,10 @@ const BreweryInfoView: FC<BreweryInfoViewProps> = ({}) => {
         <Text>{`(${numOf})`}</Text>
       </Flex>
       <Text fontSize="sm">
-        {brewery.city}, {brewery.state}
+        {brewery.street}, {brewery.city}
       </Text>
       <Text fontSize="sm">
-        {brewery.street}, {brewery.state}, {brewery.postal_code}
+        {brewery.state}, {brewery.postal_code}
       </Text>
     </Flex>
   )
