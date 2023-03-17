@@ -47,11 +47,12 @@ export const breweriesApi = createApi({
 
 export const {
   useGetBreweriesByLocationQuery,
-  useGetBrewsByNameQuery,
-  useGetBrewsByZipQuery,
-  useGetBrewsByTypeQuery,
-  useGetBrewsByCityQuery,
-  useGetBrewsByStateQuery,
+  useLazyGetBreweriesByLocationQuery,
+  useLazyGetBrewsByNameQuery,
+  useLazyGetBrewsByZipQuery,
+  useLazyGetBrewsByTypeQuery,
+  useLazyGetBrewsByCityQuery,
+  useLazyGetBrewsByStateQuery,
   // util: { getRunningQueriesThunk },
 } = breweriesApi
 

@@ -15,53 +15,63 @@ import {
 import { ChevronDownIcon } from "@chakra-ui/icons"
 import { FC, useState } from "react"
 import {
-  useGetBrewsByCityQuery,
-  useGetBrewsByNameQuery,
-  useGetBrewsByStateQuery,
-  useGetBrewsByTypeQuery,
-  useGetBrewsByZipQuery,
+  useLazyGetBrewsByCityQuery,
+  useLazyGetBrewsByNameQuery,
+  useLazyGetBrewsByStateQuery,
+  useLazyGetBrewsByTypeQuery,
+  useLazyGetBrewsByZipQuery,
 } from "../../store/features/api/breweriesApiSlice"
 import { SearchViewProps } from "./search-view.props"
 import debounce from "lodash.debounce"
 
-const SearchView: FC<SearchViewProps> = () => {
+const SearchView: FC<SearchViewProps> = ({}) => {
   const [input, setInput] = useState("")
   const [searchBy, setSearchBy] = useState("Name")
 
-  useGetBrewsByNameQuery(input, {
-    skip: !input || searchBy !== "Name",
-  })
-  useGetBrewsByZipQuery(input, {
-    skip: !input || searchBy !== "Zip",
-  })
-  useGetBrewsByCityQuery(input, {
-    skip: !input || searchBy !== "City",
-  })
-  useGetBrewsByStateQuery(input, {
-    skip: !input || searchBy !== "State",
-  })
-  useGetBrewsByTypeQuery(input, {
-    skip: !input || searchBy !== "Type",
-  })
+  const [getBrewsByName] = useLazyGetBrewsByNameQuery()
+  // ,{skip: !input || searchBy !== "Name",}
+  const [getBrewsByZip] = useLazyGetBrewsByZipQuery()
+  // ,{skip: !input || searchBy !== "Zip",}
+  const [getBrewsByCity] = useLazyGetBrewsByCityQuery()
+  // ,{skip: !input || searchBy !== "City",}
+  const [getBrewsByState] = useLazyGetBrewsByStateQuery()
+  // ,{skip: !input || searchBy !== "State",}
+  const [getBrewsByType] = useLazyGetBrewsByTypeQuery()
+  // ,{skip: !input || searchBy !== "Type",}
 
-  const onInput = debounce((e) => {
-    setInput(e.target.value)
-  }, 500)
+  // const onInput = debounce((e) => {
+  //   setInput(e.target.value)
+  // }, 500)
+
+  const onInput = (e) => setInput(e.target.value)
 
   const onSelect = (e: any) => {
-    setInput("")
+    // setInput("")
     setSearchBy(e.target.value)
+  }
+
+  const handleSubmit = () => {
+    searchBy === "Name" && getBrewsByName(input)
+    searchBy === "Zip" && getBrewsByZip(input)
+    searchBy === "City" && getBrewsByCity(input)
+    searchBy === "State" && getBrewsByState(input)
+    searchBy === "Type" && getBrewsByType(input)
   }
 
   return (
     <Flex direction="column">
       {searchBy !== "Type" ? (
-        <Input
-          placeholder="Search Brewery..."
-          variant="outline"
-          size="lg"
-          onChange={onInput}
-        />
+        <Flex>
+          <Input
+            placeholder="Search Brewery..."
+            variant="outline"
+            size="lg"
+            onChange={onInput}
+          />
+          <Button onClick={handleSubmit} size="lg">
+            Search
+          </Button>
+        </Flex>
       ) : (
         <Select
           placeholder="Select Type"
