@@ -35,8 +35,6 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
   const [updateRating, updateResult] = useUpdateRatingMutation()
   const [deleteRating, deleteResult] = useDeleteRatingMutation()
 
-  console.log("!@ updateResult", updateResult)
-
   const user = useUser()
   const supabase = useSupabaseClient()
   const toast = useToast()
@@ -78,13 +76,29 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
                     rating,
                     review,
                     id: userRating[0].id,
-                  }).then((e) => console.log("!@ UPDATED", e))
+                  }).then(() =>
+                    toast({
+                      title: "Rating updated",
+                      description: `Your rating for ${brewery.name} has been updated!`,
+                      status: "success",
+                      duration: 4000,
+                      isClosable: true,
+                    })
+                  )
                 : postRating({
                     rating,
                     review,
                     user_id: user.id,
                     brewery_id: brewery.id,
-                  })
+                  }).then(() =>
+                    toast({
+                      title: "Rating posted",
+                      description: `Your rating for ${brewery.name} has been posted!`,
+                      status: "success",
+                      duration: 4000,
+                      isClosable: true,
+                    })
+                  )
               onClose && onClose()
             }}
           >
@@ -100,7 +114,17 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
             body={"Are you sure you want to delete your rating?"}
             alertIsOpen={alertIsOpen}
             closeAlert={closeAlert}
-            onSubmit={() => deleteRating(userRating[0].id)}
+            onSubmit={() =>
+              deleteRating(userRating[0].id).then(() =>
+                toast({
+                  title: "Rating deleted",
+                  description: `Your rating for ${brewery.name} has been deleted!`,
+                  status: "success",
+                  duration: 4000,
+                  isClosable: true,
+                })
+              )
+            }
             closeModal={onClose}
           />
         </>
