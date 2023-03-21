@@ -66,7 +66,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   }
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" w={{ base: "100%", sm: "auto" }}>
       {searchBy !== "Type" ? (
         <Flex>
           <Input
@@ -98,7 +98,18 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
           <option>Closed</option>
         </Select>
       )}
-      <HStack {...group} w="100%">
+      <HStack
+        {...group}
+        mt="1"
+        w="100%"
+        overflowX="auto"
+        sx={{
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+        justify="center"
+      >
         {options.map((value) => {
           const radio = getRadioProps({ value })
           return (
@@ -135,8 +146,8 @@ function RadioCard(props) {
         _focus={{
           boxShadow: "outline",
         }}
-        px={5}
-        py={3}
+        px={4}
+        py={2}
       >
         {props.children}
       </Box>

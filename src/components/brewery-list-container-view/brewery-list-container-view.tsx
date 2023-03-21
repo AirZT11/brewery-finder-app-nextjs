@@ -13,7 +13,15 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
       overflow="scroll"
       w={{ base: "full", md: "500px" }}
     >
-      <Flex position="sticky" top="0" bg="background.100" zIndex="100">
+      <Flex
+        position="sticky"
+        top="0"
+        bg="background.200"
+        zIndex="100"
+        px="4"
+        py={{ base: 2, md: 0 }}
+        boxShadow="lg"
+      >
         <SearchView />
       </Flex>
       <BreweryListView />
