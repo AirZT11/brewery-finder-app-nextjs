@@ -5,6 +5,7 @@ import {
   Session,
 } from "@supabase/auth-helpers-react"
 import Avatar from "../avatar/avatar"
+import { Button, Flex, FormLabel, Input, VStack } from "@chakra-ui/react"
 
 interface AccountProps {
   session: Session
@@ -20,9 +21,8 @@ export default function Account({ session }: AccountProps) {
   const supabase = useSupabaseClient()
   const user = useUser()
   const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState(null)
-  // const [website, setWebsite] = useState(null)
-  const [avatar_url, setAvatarUrl] = useState(null)
+  const [username, setUsername] = useState("")
+  const [avatar_url, setAvatarUrl] = useState("")
 
   useEffect(() => {
     getProfile()
@@ -78,57 +78,41 @@ export default function Account({ session }: AccountProps) {
   }
 
   return (
-    <div className="form-widget">
+    <VStack spacing={4} align="start">
       <Avatar
-        uid={user?.id}
+        uid={user?.id!}
         url={avatar_url}
-        size={150}
+        size={300}
         onUpload={(url) => {
           setAvatarUrl(url)
           updateProfile({ username, avatar_url: url })
         }}
       />
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
+      <Flex>
+        <FormLabel htmlFor="email">Email</FormLabel>
+        <Input id="email" type="text" value={session.user.email} disabled />
+      </Flex>
+      <Flex>
+        <FormLabel htmlFor="username">Username</FormLabel>
+        <Input
           id="username"
           type="text"
           value={username || ""}
           onChange={(e) => setUsername(e.target.value)}
         />
-      </div>
-      {/* <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="website"
-          value={website || ""}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div> */}
+      </Flex>
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() => updateProfile({ username, avatar_url })}
-          disabled={loading}
-        >
-          {loading ? "Loading ..." : "Update"}
-        </button>
-      </div>
+      <Button
+        className="button primary block"
+        onClick={() => updateProfile({ username, avatar_url })}
+        disabled={loading}
+      >
+        {loading ? "Loading ..." : "Update"}
+      </Button>
 
-      <div>
-        <button
-          className="button block"
-          onClick={() => supabase.auth.signOut()}
-        >
-          Sign Out
-        </button>
-      </div>
-    </div>
+      <Button className="button block" onClick={() => supabase.auth.signOut()}>
+        Sign Out
+      </Button>
+    </VStack>
   )
 }

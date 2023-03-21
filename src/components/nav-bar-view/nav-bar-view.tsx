@@ -48,7 +48,8 @@ const NavBarView: FC<NavBarViewProps> = () => {
               <Flex direction="column">
                 <Link href="/">Home</Link>
                 <Link href="/map">Map</Link>
-                <Link href="/">Profile</Link>
+                <Link href="/profile">Profile</Link>
+                <Link href="/account">My Account</Link>
               </Flex>
             </DrawerBody>
 
