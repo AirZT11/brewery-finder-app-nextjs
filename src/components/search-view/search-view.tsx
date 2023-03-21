@@ -74,6 +74,11 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
             variant="outline"
             size="lg"
             onChange={onInput}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleSubmit()
+              }
+            }}
           />
           <Button onClick={handleSubmit} size="lg">
             Search
