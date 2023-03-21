@@ -53,9 +53,7 @@ export const breweriesSlice = createSlice({
   initialState,
   reducers: {
     setSelectedBrewery(state, action: PayloadAction<BreweryState>) {
-      console.log("!@ Dispatch setSelectedBrewery", state, action)
       state.selectedBrewery = action.payload
-      // console.log("!@ selectedBrewery state", state.selectedBrewery)
     },
   },
   extraReducers: (builder) => {

@@ -2,7 +2,14 @@ import { Box, Flex, Spinner, Text, Icon } from "@chakra-ui/react"
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
-import { GeolocateControl, Map, MapRef, Marker, useMap } from "react-map-gl"
+import {
+  GeolocateControl,
+  Map,
+  MapRef,
+  Marker,
+  Popup,
+  useMap,
+} from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
@@ -60,6 +67,14 @@ const MapView: FC<MapViewProps> = ({}) => {
             rotationAlignment="map"
           >
             <Flex direction="column" align="center">
+              <Popup
+                longitude={+brewery.longitude!}
+                latitude={+brewery.latitude!}
+                anchor="top"
+                // onClose={() => setShowPopup(false)}
+              >
+                You are here
+              </Popup>
               {selected && (
                 <Icon
                   as={BsCircleFill}

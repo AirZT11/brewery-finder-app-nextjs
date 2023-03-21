@@ -1,4 +1,10 @@
-import { Flex, IconButton, useDisclosure } from "@chakra-ui/react"
+import {
+  Flex,
+  IconButton,
+  LinkBox,
+  LinkOverlay,
+  useDisclosure,
+} from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { useSelector } from "react-redux"
 import {
@@ -13,13 +19,16 @@ import { BreweryCardProps } from "./brewery-card.props"
 import { useUser } from "@supabase/auth-helpers-react"
 import { useMap } from "react-map-gl"
 import { GrMapLocation } from "react-icons/gr"
+import { FaDirections } from "react-icons/fa"
 import { useAppDispatch } from "../../store/hooks"
 import { setSelectedBrewery } from "../../store/features/breweriesSlice"
+import { useUserLocation } from "../../hooks/useUserLocation"
 
 const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const user = useUser()
   const { myMapA } = useMap()
+  const { location } = useUserLocation()
 
   const breweryRatings = useSelector((state: { ratings: RatingsState }) =>
     selectRating(state, brewery.id)
@@ -82,12 +91,28 @@ const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
         <BreweryInfoView />
         <Flex direction="column" align="end" ml="2">
           <IconButton
-            zIndex="99999"
             onClick={handleLocateClick}
             aria-label="Locate brewery on map"
             icon={<GrMapLocation />}
             variant="outline"
+            disabled={brewery?.latitude === null}
+            mb="2"
           />
+          <LinkBox>
+            <LinkOverlay
+              title="Get Directions"
+              href={`https://www.google.com/maps/dir/?api=1&origin=${location?.lat},${location?.lng}&destination=${brewery.latitude},${brewery.longitude}`}
+              isExternal
+            >
+              <IconButton
+                aria-label="Get Directions"
+                icon={<FaDirections />}
+                variant="outline"
+                disabled={brewery?.latitude === null}
+                mb="2"
+              />
+            </LinkOverlay>
+          </LinkBox>
         </Flex>
         <BreweryInfoPopupView
           {...{
