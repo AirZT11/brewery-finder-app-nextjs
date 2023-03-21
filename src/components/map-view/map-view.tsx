@@ -1,15 +1,17 @@
-import { Box, Flex, Spinner, Text, Icon } from "@chakra-ui/react"
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import {
+  Flex,
+  Spinner,
+  Icon,
+  Popover,
+  PopoverContent,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverTrigger,
+} from "@chakra-ui/react"
+import { FC, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
-import {
-  GeolocateControl,
-  Map,
-  MapRef,
-  Marker,
-  Popup,
-  useMap,
-} from "react-map-gl"
+import { GeolocateControl, Map, MapRef, Marker } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
@@ -66,36 +68,36 @@ const MapView: FC<MapViewProps> = ({}) => {
             anchor="bottom"
             rotationAlignment="map"
           >
-            <Flex direction="column" align="center">
-              <Popup
-                longitude={+brewery.longitude!}
-                latitude={+brewery.latitude!}
-                anchor="top"
-                // onClose={() => setShowPopup(false)}
-              >
-                You are here
-              </Popup>
-              {selected && (
-                <Icon
-                  as={BsCircleFill}
-                  boxSize={10}
-                  position="absolute"
-                  color="red"
-                  bottom={2.5}
-                  right={-1}
-                  // top={-1}
-                  opacity=".5"
-                />
-              )}
-              <Image
-                src="beerIcon.svg"
-                alt="beer-icon"
-                width="30"
-                height="30"
-              />
+            <Popover placement="top">
+              <PopoverTrigger>
+                <Flex direction="column" align="center">
+                  {/* {selected && (
+                    <Icon
+                      as={BsCircleFill}
+                      boxSize={10}
+                      position="absolute"
+                      color="red"
+                      bottom={2.5}
+                      right={-1}
+                      // top={-1}
+                      opacity=".5"
+                    />
+                  )} */}
+                  <Image
+                    src="beerIcon.svg"
+                    alt="beer-icon"
+                    width="30"
+                    height="30"
+                  />
 
-              <TriangleDownIcon boxSize={4} opacity=".5" />
-            </Flex>
+                  <TriangleDownIcon boxSize={4} opacity=".5" />
+                </Flex>
+              </PopoverTrigger>
+
+              <PopoverContent w="100px">
+                <PopoverBody>{brewery.name}</PopoverBody>
+              </PopoverContent>
+            </Popover>
           </Marker>
         )
       }),
