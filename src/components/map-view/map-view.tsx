@@ -71,7 +71,7 @@ const MapView: FC<MapViewProps> = ({}) => {
             <Popover placement="top">
               <PopoverTrigger>
                 <Flex direction="column" align="center">
-                  {/* {selected && (
+                  {selected && (
                     <Icon
                       as={BsCircleFill}
                       boxSize={10}
@@ -82,7 +82,7 @@ const MapView: FC<MapViewProps> = ({}) => {
                       // top={-1}
                       opacity=".5"
                     />
-                  )} */}
+                  )}
                   <Image
                     src="beerIcon.svg"
                     alt="beer-icon"

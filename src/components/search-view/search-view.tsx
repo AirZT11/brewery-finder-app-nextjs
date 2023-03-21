@@ -1,10 +1,12 @@
 import {
   Flex,
   Input,
-  Radio,
-  RadioGroup,
   Select,
   Button,
+  Box,
+  useRadio,
+  useRadioGroup,
+  HStack,
 } from "@chakra-ui/react"
 import { ChevronDownIcon } from "@chakra-ui/icons"
 import { FC, useState } from "react"
@@ -23,6 +25,16 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const [input, setInput] = useState("")
   const [searchBy, setSearchBy] = useState("Name")
 
+  const options = ["Name", "Zip", "City", "State", "Type"]
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "searchFilter",
+    defaultValue: "Name",
+    onChange: setSearchBy,
+  })
+
+  const group = getRootProps()
+
   const [getBrewsByName] = useLazyGetBrewsByNameQuery()
   const [getBrewsByZip] = useLazyGetBrewsByZipQuery()
   const [getBrewsByCity] = useLazyGetBrewsByCityQuery()
@@ -38,19 +50,19 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
 
   const onInput = (e: any) => setInput(e.target.value)
 
-  const onSelect = (e: any) => {
-    // setInput("")
-    setSearchBy(e.target.value)
-  }
-
   const handleSubmit = () => {
     searchBy === "Name" && getBrewsByName(input)
     searchBy === "Zip" && getBrewsByZip(input)
     searchBy === "City" && getBrewsByCity(input)
     searchBy === "State" && getBrewsByState(input)
-    searchBy === "Type" && getBrewsByType(input)
 
     navigateToMapOnSubmit && router.push("/map")
+  }
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value.toLowerCase()
+    setInput(value)
+    searchBy === "Type" && getBrewsByType(value)
   }
 
   return (
@@ -68,14 +80,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
           </Button>
         </Flex>
       ) : (
-        <Select
-          placeholder="Select Type"
-          onChange={(e) => {
-            const value = e.target.value.toLowerCase()
-            setInput(value)
-            handleSubmit()
-          }}
-        >
+        <Select placeholder="Select Type" onChange={handleSelect}>
           <option>Micro</option>
           <option>Nano</option>
           <option>Regional</option>
@@ -88,26 +93,49 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
           <option>Closed</option>
         </Select>
       )}
-      <RadioGroup defaultValue="Name" my="2">
-        <Flex direction="row" justify="space-between">
-          <Radio defaultChecked size="sm" value="Name" onChange={onSelect}>
-            Name
-          </Radio>
-          <Radio size="sm" value="Zip" onChange={onSelect}>
-            Zip
-          </Radio>
-          <Radio size="sm" value="City" onChange={onSelect}>
-            City
-          </Radio>
-          <Radio size="sm" value="State" onChange={onSelect}>
-            State
-          </Radio>
-          <Radio size="sm" value="Type" onChange={onSelect}>
-            Type
-          </Radio>
-        </Flex>
-      </RadioGroup>
+      <HStack {...group} w="100%">
+        {options.map((value) => {
+          const radio = getRadioProps({ value })
+          return (
+            <RadioCard key={value} {...radio}>
+              {value}
+            </RadioCard>
+          )
+        })}
+      </HStack>
     </Flex>
+  )
+}
+
+function RadioCard(props) {
+  const { getInputProps, getCheckboxProps } = useRadio(props)
+
+  const input = getInputProps()
+  const checkbox = getCheckboxProps()
+
+  return (
+    <Box as="label">
+      <input {...input} />
+      <Box
+        {...checkbox}
+        cursor="pointer"
+        borderWidth="1px"
+        borderRadius="md"
+        boxShadow="md"
+        _checked={{
+          bg: "teal.600",
+          color: "white",
+          borderColor: "teal.600",
+        }}
+        _focus={{
+          boxShadow: "outline",
+        }}
+        px={5}
+        py={3}
+      >
+        {props.children}
+      </Box>
+    </Box>
   )
 }
 
