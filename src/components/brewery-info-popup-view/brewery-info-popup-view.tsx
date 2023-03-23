@@ -35,13 +35,15 @@ const BreweryInfoPopupView: FC<BreweryInfoPopupViewProps> = ({
   const { brewery, userRatingExist } = useBreweryCardContext()
   const handleReviewDisplay = () => setReviewBrewery(true)
 
+  const { breweryRatings } = useBreweryCardContext()
+
   const breweryContent = !reviewBrewery ? (
     <>
       <BreweryInfoView />
       <Button onClick={handleReviewDisplay}>
         {userRatingExist ? "Edit your review" : "Write a review"}
       </Button>
-      <ReviewListView />
+      <ReviewListView breweryRatings={breweryRatings} />
     </>
   ) : (
     <>

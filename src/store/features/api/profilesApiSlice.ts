@@ -20,11 +20,12 @@ export const profilesApi = createApi({
   }),
   endpoints: (builder) => ({
     getProfile: builder.query({
-      queryFn: async (user) => {
+      queryFn: async (username) => {
         const { data, error, status } = await supabase
           .from("profiles")
-          .select(`username, avatar_url, full_name`)
-          .eq("id", user?.id)
+          .select("*")
+          .eq("username", username)
+          .single()
         return { data }
       },
     }),
