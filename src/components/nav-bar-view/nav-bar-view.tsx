@@ -16,10 +16,14 @@ import { FC, useRef } from "react"
 import { NavBarViewProps } from "./nav-bar-view.props"
 import { AiOutlineMenu } from "react-icons/ai"
 import Link from "next/link"
+import { useUser } from "@supabase/auth-helpers-react"
+import useUserProfile from "../../hooks/useUserProfile"
 
 const NavBarView: FC<NavBarViewProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef<any>()
+  const profile = useUserProfile()
+
   return (
     <Flex w="full" p="2" justifyContent="space-between" bg="background.100">
       <Link href="/">
@@ -39,6 +43,7 @@ const NavBarView: FC<NavBarViewProps> = () => {
           onClose={onClose}
           finalFocusRef={btnRef}
         >
+          ``
           <DrawerOverlay />
           <DrawerContent>
             <DrawerCloseButton />
@@ -48,7 +53,9 @@ const NavBarView: FC<NavBarViewProps> = () => {
               <Flex direction="column">
                 <Link href="/">Home</Link>
                 <Link href="/map">Map</Link>
-                <Link href="/profile">Profile</Link>
+                {profile && (
+                  <Link href={`/profile/${profile.username}`}>Profile</Link>
+                )}
                 <Link href="/account">My Account</Link>
               </Flex>
             </DrawerBody>

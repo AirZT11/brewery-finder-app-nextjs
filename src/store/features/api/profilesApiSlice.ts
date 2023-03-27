@@ -29,6 +29,16 @@ export const profilesApi = createApi({
         return { data }
       },
     }),
+    getProfileByUserId: builder.query({
+      queryFn: async (userId) => {
+        const { data, error, status } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", userId)
+          .single()
+        return { data }
+      },
+    }),
     // postRating: builder.mutation({
     //   // query: (rating) => ({
     //   //   url: `/ratings`,
@@ -44,6 +54,6 @@ export const profilesApi = createApi({
   }),
 })
 
-export const { useGetProfileQuery } = profilesApi
+export const { useGetProfileQuery, useGetProfileByUserIdQuery } = profilesApi
 
-export const { getProfile } = profilesApi.endpoints
+export const { getProfile, getProfileByUserId } = profilesApi.endpoints

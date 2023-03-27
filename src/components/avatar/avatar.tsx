@@ -12,7 +12,7 @@ export default function Avatar({
   uid: string
   url: Profiles["avatar_url"]
   size: number
-  onUpload: (url: string) => void
+  onUpload?: (url: string) => void
 }) {
   const supabase = useSupabaseClient<Database>()
   const [avatarUrl, setAvatarUrl] = useState<Profiles["avatar_url"]>(null)
@@ -60,7 +60,7 @@ export default function Avatar({
         throw uploadError
       }
 
-      onUpload(filePath)
+      onUpload && onUpload(filePath)
     } catch (error) {
       alert("Error uploading avatar!")
       console.log(error)
@@ -84,22 +84,24 @@ export default function Avatar({
           style={{ height: size, width: size }}
         />
       )}
-      <div style={{ width: size }}>
-        <label className="button primary block" htmlFor="single">
-          {uploading ? "Uploading ..." : "Upload"}
-        </label>
-        <input
-          style={{
-            visibility: "hidden",
-            position: "absolute",
-          }}
-          type="file"
-          id="single"
-          accept="image/*"
-          onChange={uploadAvatar}
-          disabled={uploading}
-        />
-      </div>
+      {onUpload && (
+        <div style={{ width: size }}>
+          <label className="button primary block" htmlFor="single">
+            {uploading ? "Uploading ..." : "Upload"}
+          </label>
+          <input
+            style={{
+              visibility: "hidden",
+              position: "absolute",
+            }}
+            type="file"
+            id="single"
+            accept="image/*"
+            onChange={uploadAvatar}
+            disabled={uploading}
+          />
+        </div>
+      )}
     </div>
   )
 }

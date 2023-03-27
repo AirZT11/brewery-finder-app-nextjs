@@ -1,6 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { User } from "@supabase/supabase-js"
 import { supabase } from "../../../lib/supabaseClient"
+import { RatingProps } from "../ratingsSlice"
 
 interface RatingState {
   id: number
@@ -9,6 +11,7 @@ interface RatingState {
   review: string
   userId: string
   brewery_id: string
+  userProfile?: User
 }
 
 interface BrewRatingsState {
@@ -28,11 +31,21 @@ export const ratingsApi = createApi({
   endpoints: (builder) => ({
     getRatings: builder.query<RatingState[], string[]>({
       queryFn: async (breweryIds) => {
-        console.log("!@ getRatings called", breweryIds)
         const { data } = await supabase
           .from("ratings")
           .select("*, userProfile:profiles(*)")
           .in("brewery_id", breweryIds)
+        return { data }
+      },
+      providesTags: ["Ratings"],
+    }),
+    // Get breweries by username
+    getRatingsByUserId: builder.query<RatingProps[], string>({
+      queryFn: async (userId) => {
+        const { data } = await supabase
+          .from("ratings")
+          .select("*, userProfile:profiles(*)")
+          .eq("user_id", userId)
         return { data }
       },
       providesTags: ["Ratings"],
@@ -89,7 +102,13 @@ export const {
   usePostRatingMutation,
   useUpdateRatingMutation,
   useDeleteRatingMutation,
+  useGetRatingsByUserIdQuery,
 } = ratingsApi
 
-export const { getRatings, postRating, updateRating, deleteRating } =
-  ratingsApi.endpoints
+export const {
+  getRatings,
+  postRating,
+  updateRating,
+  deleteRating,
+  getRatingsByUserId,
+} = ratingsApi.endpoints
