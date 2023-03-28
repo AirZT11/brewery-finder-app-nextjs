@@ -25,7 +25,7 @@ const NavBarView: FC<NavBarViewProps> = () => {
   const profile = useUserProfile()
 
   return (
-    <Flex w="full" p="2" justifyContent="space-between" bg="background.100">
+    <Flex w="full" p="4" justifyContent="space-between" bg="background.100">
       <Link href="/">
         <Heading>BreweryFinder</Heading>
       </Link>

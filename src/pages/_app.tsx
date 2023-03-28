@@ -6,17 +6,10 @@ import { useState } from "react"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import { MapProvider } from "react-map-gl"
+import theme from "../theme"
 const { wrapper } = require("../store/store")
-
-const colors = {
-  background: {
-    100: "rgb(243, 243, 243)",
-    200: "rgb(247, 247, 247)",
-    300: "rgb(218, 218, 218)",
-  },
-}
-
-const theme = extendTheme({ colors })
+import "@fontsource/raleway/400.css"
+import "@fontsource/lobster-two/700.css"
 
 function MyApp({
   Component,

@@ -7,10 +7,16 @@ import { HomepageViewProps } from "./homepage-view.props"
 export const HomepageView: FC<HomepageViewProps> = () => {
   return (
     <Layout>
-      <Flex direction="column" h="full" justify="center" align="center" p="4">
+      <Flex
+        direction="column"
+        h="full"
+        align="center"
+        p="4"
+        mt={{ base: "10", md: "40" }}
+      >
         <Flex direction="column" mb="8" align="center">
           <Heading>Welcome To</Heading>
-          <Heading>The Brewery Finder</Heading>
+          <Heading fontSize={"100px"}>The BreweryFinder</Heading>
         </Flex>
         <SearchView navigateToMapOnSubmit />
       </Flex>

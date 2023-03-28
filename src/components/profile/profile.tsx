@@ -23,17 +23,23 @@ const Profile: FC<ProfileProps> = ({ username }) => {
     skip: !userId,
   })
 
-  console.log(breweryRatings)
-
   return (
-    <Container>
+    <Container p="8" h="full">
       <Flex direction="column" align="center">
-        <Avatar uid={user?.id!} url={user.avatar_url} size={200} />
+        {user?.avatar_url && (
+          <Avatar uid={user?.id!} url={user.avatar_url} size={200} />
+        )}
         <Heading my="4">{username}</Heading>
-        <Tabs isFitted variant="enclosed">
+        <Tabs
+          /* isFitted */ variant="unstyled"
+          overflow="auto"
+          maxHeight="1000px"
+          borderWidth="1px"
+          borderColor="gray.200"
+        >
           <TabList mb="1em">
             <Tab>Reviews</Tab>
-            <Tab>Saved</Tab>
+            {/* <Tab>Saved</Tab> */}
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -41,9 +47,9 @@ const Profile: FC<ProfileProps> = ({ username }) => {
                 <ReviewListView breweryRatings={breweryRatings} isProfileView />
               )}
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <p>two!</p>
-            </TabPanel>
+            </TabPanel> */}
           </TabPanels>
         </Tabs>
       </Flex>
