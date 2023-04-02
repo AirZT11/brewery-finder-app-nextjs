@@ -11,12 +11,12 @@ import {
   Heading,
   IconButton,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react"
 import { FC, useRef } from "react"
 import { NavBarViewProps } from "./nav-bar-view.props"
 import { AiOutlineMenu } from "react-icons/ai"
 import Link from "next/link"
-import { useUser } from "@supabase/auth-helpers-react"
 import useUserProfile from "../../hooks/useUserProfile"
 
 const NavBarView: FC<NavBarViewProps> = () => {
@@ -25,7 +25,12 @@ const NavBarView: FC<NavBarViewProps> = () => {
   const profile = useUserProfile()
 
   return (
-    <Flex w="full" p="4" justifyContent="space-between" bg="background.100">
+    <Flex
+      w="full"
+      p={{ base: "2", md: "4" }}
+      justifyContent="space-between"
+      bg="background.100"
+    >
       <Link href="/">
         <Heading>BreweryFinder</Heading>
       </Link>
@@ -45,19 +50,29 @@ const NavBarView: FC<NavBarViewProps> = () => {
         >
           ``
           <DrawerOverlay />
-          <DrawerContent>
+          <DrawerContent bg="background.100">
             <DrawerCloseButton />
-            <DrawerHeader>The Brewery Finder</DrawerHeader>
+            <DrawerHeader>
+              <Heading>The Brewery Finder</Heading>
+            </DrawerHeader>
 
             <DrawerBody>
-              <Flex direction="column">
-                <Link href="/">Home</Link>
-                <Link href="/map">Map</Link>
+              <VStack direction="column" align="start" spacing={8}>
+                <Link href="/">
+                  <Heading>Home</Heading>
+                </Link>
+                <Link href="/map">
+                  <Heading>Map</Heading>
+                </Link>
                 {profile && (
-                  <Link href={`/profile/${profile.username}`}>Profile</Link>
+                  <Link href={`/profile/${profile.username}`}>
+                    <Heading>Profile</Heading>
+                  </Link>
                 )}
-                <Link href="/account">My Account</Link>
-              </Flex>
+                <Link href="/account">
+                  <Heading>My Account</Heading>
+                </Link>
+              </VStack>
             </DrawerBody>
 
             <DrawerFooter>

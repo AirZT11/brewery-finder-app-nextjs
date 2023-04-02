@@ -16,7 +16,9 @@ export const HomepageView: FC<HomepageViewProps> = () => {
       >
         <Flex direction="column" mb="8" align="center">
           <Heading>Welcome To</Heading>
-          <Heading fontSize={"100px"}>The BreweryFinder</Heading>
+          <Heading fontSize={{ base: "70px", md: "100px" }}>
+            The BreweryFinder
+          </Heading>
         </Flex>
         <SearchView navigateToMapOnSubmit />
       </Flex>

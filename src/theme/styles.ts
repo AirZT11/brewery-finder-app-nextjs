@@ -5,6 +5,9 @@ const styles = {
       200: "rgb(247, 247, 247)",
       300: "rgb(218, 218, 218)",
     },
+    brand: {
+      primary: "rgba(255, 203, 24)",
+    },
   },
   fonts: {
     heading: `'Lobster Two', sans-serif`,

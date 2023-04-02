@@ -7,6 +7,7 @@ import {
   PopoverCloseButton,
   PopoverBody,
   PopoverTrigger,
+  Skeleton,
 } from "@chakra-ui/react"
 import { FC, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
@@ -27,6 +28,7 @@ const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
 const MapView: FC<MapViewProps> = ({}) => {
   // const [selectedBrew, setSelectedBrew] = useState(null)
+  const [mapLoaded, setMapLoaded] = useState(false)
   const [markerView, toggleMarkerView] = useToggle(true)
   const mapRef = useRef<MapRef>()
 
@@ -104,29 +106,33 @@ const MapView: FC<MapViewProps> = ({}) => {
     [breweries, selectedBrew]
   )
 
-  if (loading)
-    return (
-      <Flex w="100%" h="100%">
-        <Spinner />
-      </Flex>
-    )
+  // if (loading)
+  //   return (
+  //     <Flex w="100%" h="100%" justify="center" align="center">
+  //       <Spinner />
+  //     </Flex>
+  //   )
+
   return (
     <Flex w="100%" h="100%" /* filter="blur(10px)" */>
-      <Map
-        id="myMapA"
-        // ref={mapRef}
-        reuseMaps
-        minZoom={3.5}
-        onLoad={() => console.log("LOADED")}
-        {...viewState}
-        onMove={(evt) => setViewState(evt.viewState)}
-        // style={{ width: "100%", height: "100vh" }}
-        mapStyle="mapbox://styles/mapbox/streets-v12"
-        mapboxAccessToken={KEY}
-      >
-        {breweryMarkers}
-        <GeolocateControl position="bottom-right" />
-      </Map>
+      <Skeleton isLoaded={mapLoaded} w="100%" h="100%">
+        <Map
+          id="myMapA"
+          // ref={mapRef}
+
+          reuseMaps
+          minZoom={3.5}
+          onLoad={() => setMapLoaded(true)}
+          {...viewState}
+          onMove={(evt) => setViewState(evt.viewState)}
+          // style={{ width: "100%", height: "100vh" }}
+          mapStyle="mapbox://styles/mapbox/streets-v12"
+          mapboxAccessToken={KEY}
+        >
+          {breweryMarkers}
+          <GeolocateControl position="bottom-right" />
+        </Map>
+      </Skeleton>
     </Flex>
   )
 }

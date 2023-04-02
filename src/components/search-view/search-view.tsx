@@ -9,7 +9,7 @@ import {
   HStack,
 } from "@chakra-ui/react"
 import { ChevronDownIcon } from "@chakra-ui/icons"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import {
   useLazyGetBrewsByCityQuery,
   useLazyGetBrewsByNameQuery,
@@ -35,11 +35,36 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
 
   const group = getRootProps()
 
-  const [getBrewsByName] = useLazyGetBrewsByNameQuery()
-  const [getBrewsByZip] = useLazyGetBrewsByZipQuery()
-  const [getBrewsByCity] = useLazyGetBrewsByCityQuery()
-  const [getBrewsByState] = useLazyGetBrewsByStateQuery()
-  const [getBrewsByType] = useLazyGetBrewsByTypeQuery()
+  const [getBrewsByName, nameResults] = useLazyGetBrewsByNameQuery()
+  const [getBrewsByZip, zipResults] = useLazyGetBrewsByZipQuery()
+  const [getBrewsByCity, cityResults] = useLazyGetBrewsByCityQuery()
+  const [getBrewsByState, stateResults] = useLazyGetBrewsByStateQuery()
+  const [getBrewsByType, typeResults] = useLazyGetBrewsByTypeQuery()
+
+  const [loading, setLoading] = useState(false)
+  console.log("!@ nameResults", nameResults)
+  useEffect(() => {
+    if (
+      nameResults.isLoading ||
+      zipResults.isLoading ||
+      cityResults.isLoading ||
+      stateResults.isLoading ||
+      typeResults.isLoading
+    ) {
+      console.log("!@ setLoading true")
+      setLoading(true)
+    } else {
+      console.log("!@ setLoading false")
+      setLoading(false)
+    }
+  }, [
+    loading,
+    nameResults.isLoading,
+    zipResults.isLoading,
+    cityResults.isLoading,
+    stateResults.isLoading,
+    typeResults.isLoading,
+  ])
 
   const router = useRouter()
 
@@ -51,12 +76,11 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const onInput = (e: any) => setInput(e.target.value)
 
   const handleSubmit = () => {
+    navigateToMapOnSubmit && router.push("/map")
     searchBy === "Name" && getBrewsByName(input)
     searchBy === "Zip" && getBrewsByZip(input)
     searchBy === "City" && getBrewsByCity(input)
     searchBy === "State" && getBrewsByState(input)
-
-    navigateToMapOnSubmit && router.push("/map")
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -66,9 +90,9 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   }
 
   return (
-    <Flex direction="column" w={{ base: "100%", sm: "auto" }}>
+    <Flex direction="column" w={{ base: "100%", md: "auto" }} align="center">
       {searchBy !== "Type" ? (
-        <Flex>
+        <Flex w="full">
           <Input
             placeholder="Search Brewery..."
             variant="outline"
@@ -79,13 +103,34 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
                 handleSubmit()
               }
             }}
+            style={
+              input
+                ? { borderTopRightRadius: "0", borderBottomRightRadius: "0" }
+                : undefined
+            }
+            padding={7}
+            w="full"
           />
-          <Button onClick={handleSubmit} size="lg">
-            Search
-          </Button>
+          {input && (
+            <Button
+              isLoading={loading}
+              onClick={handleSubmit}
+              size="lg"
+              variant="outline"
+              style={
+                input
+                  ? { borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }
+                  : undefined
+              }
+              disabled={!input}
+              padding={7}
+            >
+              Search
+            </Button>
+          )}
         </Flex>
       ) : (
-        <Select placeholder="Select Type" onChange={handleSelect}>
+        <Select placeholder="Select Type" onChange={handleSelect} size={"lg"}>
           <option>Micro</option>
           <option>Nano</option>
           <option>Regional</option>
@@ -100,7 +145,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
       )}
       <HStack
         {...group}
-        mt="1"
+        mt="2"
         w="100%"
         overflowX="auto"
         sx={{
@@ -123,14 +168,14 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   )
 }
 
-function RadioCard(props) {
+function RadioCard(props: any) {
   const { getInputProps, getCheckboxProps } = useRadio(props)
 
   const input = getInputProps()
   const checkbox = getCheckboxProps()
 
   return (
-    <Box as="label">
+    <Box as="label" w="full">
       <input {...input} />
       <Box
         {...checkbox}
@@ -139,15 +184,17 @@ function RadioCard(props) {
         borderRadius="md"
         boxShadow="md"
         _checked={{
-          bg: "teal.600",
-          color: "white",
-          borderColor: "teal.600",
+          bg: "brand.primary",
+          color: "black",
+          // borderColor: "black",
+          // borderWidth: "4px",
         }}
-        _focus={{
-          boxShadow: "outline",
-        }}
+        // _focus={{
+        //   boxShadow: "outline",
+        // }}
         px={4}
         py={2}
+        textAlign="center"
       >
         {props.children}
       </Box>

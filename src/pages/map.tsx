@@ -8,7 +8,12 @@ import { wrapper } from "../store/store"
 const MapPage = () => {
   return (
     <Layout>
-      <Flex direction={{ base: "column-reverse", md: "row" }} h="100%" w="100%">
+      <Flex
+        direction={{ base: "column-reverse", md: "row" }}
+        h="100%"
+        w="100%"
+        overflow="hidden"
+      >
         <BreweryListContainerView />
         <MapView />
       </Flex>
