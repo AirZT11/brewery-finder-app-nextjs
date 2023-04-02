@@ -90,6 +90,7 @@ const ReviewBreweryView: FC<ReviewBreweryViewProps> = ({ onClose }) => {
                     review,
                     user_id: user.id,
                     brewery_id: brewery.id,
+                    brewery_name: brewery.name,
                   }).then(() =>
                     toast({
                       title: "Rating posted",

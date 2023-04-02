@@ -1,34 +1,24 @@
 import {
   Flex,
-  Spinner,
   Icon,
   Popover,
   PopoverContent,
-  PopoverCloseButton,
   PopoverBody,
   PopoverTrigger,
   Skeleton,
+  IconButton,
 } from "@chakra-ui/react"
 import { FC, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
-import {
-  GeolocateControl,
-  GeolocateResultEvent,
-  Map,
-  MapRef,
-  Marker,
-} from "react-map-gl"
+import { GeolocateResultEvent, Map, MapRef, Marker, useMap } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
-import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import {
-  BreweryState,
-  setSelectedBrewery,
-} from "../../store/features/breweriesSlice"
+import { useAppSelector } from "../../store/hooks"
 import { TriangleDownIcon } from "@chakra-ui/icons"
 import { BsCircleFill } from "react-icons/bs"
+import { BiCurrentLocation } from "react-icons/bi"
 import { useLazyGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
@@ -36,17 +26,10 @@ const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 const MapView: FC<MapViewProps> = ({}) => {
   // const [selectedBrew, setSelectedBrew] = useState(null)
   const [mapLoaded, setMapLoaded] = useState(false)
-  const [markerView, toggleMarkerView] = useToggle(true)
-  const mapRef = useRef<MapRef>()
+  const { myMapA } = useMap()
 
   const { location, loading } = useUserLocation()
-  const [getBreweriesByLocation] = useLazyGetBreweriesByLocationQuery()
-
-  const handleGetBreweriesByLocation = (e: GeolocateResultEvent) => {
-    console.log("!@ Location: ", e)
-    const { latitude, longitude } = e.coords
-    getBreweriesByLocation({ lat: latitude, lng: longitude })
-  }
+  const [getBreweriesByLocation, result] = useLazyGetBreweriesByLocationQuery()
 
   const [viewState, setViewState] = useState({
     latitude: location?.lat || 40.678177,
@@ -96,7 +79,6 @@ const MapView: FC<MapViewProps> = ({}) => {
                       color="red"
                       bottom={2.5}
                       right={-1}
-                      // top={-1}
                       opacity=".5"
                     />
                   )}
@@ -121,34 +103,44 @@ const MapView: FC<MapViewProps> = ({}) => {
     [breweries, selectedBrew]
   )
 
-  // if (loading)
-  //   return (
-  //     <Flex w="100%" h="100%" justify="center" align="center">
-  //       <Spinner />
-  //     </Flex>
-  //   )
-
   return (
     <Flex w="100%" h="100%" /* filter="blur(10px)" */>
       <Skeleton isLoaded={mapLoaded} w="100%" h="100%">
         <Map
+          attributionControl={false}
           id="myMapA"
-          // ref={mapRef}
-
           reuseMaps
           minZoom={3.5}
           onLoad={() => setMapLoaded(true)}
           {...viewState}
           onMove={(evt) => setViewState(evt.viewState)}
-          // style={{ width: "100%", height: "100vh" }}
           mapStyle="mapbox://styles/mapbox/streets-v12"
           mapboxAccessToken={KEY}
         >
           {breweryMarkers}
-          <GeolocateControl
-            position="bottom-right"
-            onGeolocate={(e) => handleGetBreweriesByLocation(e)}
+          <IconButton
+            size="sm"
+            position="absolute"
+            boxShadow="md"
+            bottom={5}
+            right={5}
+            aria-label="Find nearby breweries"
+            icon={<BiCurrentLocation size="20" />}
+            isDisabled={!location || loading}
+            isLoading={loading}
+            onClick={() => {
+              if (location) {
+                myMapA?.flyTo({
+                  center: [location.lng, location.lat],
+                  zoom: 11,
+                  speed: 2,
+                  curve: 1,
+                })
+                getBreweriesByLocation(location)
+              }
+            }}
           />
+          {/* {<Spinner />} */}
         </Map>
       </Skeleton>
     </Flex>
