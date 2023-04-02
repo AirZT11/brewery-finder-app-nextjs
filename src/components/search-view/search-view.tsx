@@ -8,9 +8,9 @@ import {
   useRadioGroup,
   HStack,
 } from "@chakra-ui/react"
-import { ChevronDownIcon } from "@chakra-ui/icons"
 import { FC, useEffect, useState } from "react"
 import {
+  useGetBreweriesByLocationQuery,
   useLazyGetBrewsByCityQuery,
   useLazyGetBrewsByNameQuery,
   useLazyGetBrewsByStateQuery,
@@ -18,7 +18,6 @@ import {
   useLazyGetBrewsByZipQuery,
 } from "../../store/features/api/breweriesApiSlice"
 import { SearchViewProps } from "./search-view.props"
-import debounce from "lodash.debounce"
 import { useRouter } from "next/router"
 
 const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
@@ -42,7 +41,6 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const [getBrewsByType, typeResults] = useLazyGetBrewsByTypeQuery()
 
   const [loading, setLoading] = useState(false)
-  console.log("!@ nameResults", nameResults)
   useEffect(() => {
     if (
       nameResults.isLoading ||
@@ -111,12 +109,14 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
             padding={7}
             w="full"
           />
+
           {input && (
             <Button
               isLoading={loading}
               onClick={handleSubmit}
               size="lg"
               variant="outline"
+              // colorScheme="blackAlpha"
               style={
                 input
                   ? { borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }

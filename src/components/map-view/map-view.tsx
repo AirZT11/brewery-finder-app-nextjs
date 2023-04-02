@@ -12,7 +12,13 @@ import {
 import { FC, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
-import { GeolocateControl, Map, MapRef, Marker } from "react-map-gl"
+import {
+  GeolocateControl,
+  GeolocateResultEvent,
+  Map,
+  MapRef,
+  Marker,
+} from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
@@ -23,6 +29,7 @@ import {
 } from "../../store/features/breweriesSlice"
 import { TriangleDownIcon } from "@chakra-ui/icons"
 import { BsCircleFill } from "react-icons/bs"
+import { useLazyGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
@@ -33,6 +40,14 @@ const MapView: FC<MapViewProps> = ({}) => {
   const mapRef = useRef<MapRef>()
 
   const { location, loading } = useUserLocation()
+  const [getBreweriesByLocation] = useLazyGetBreweriesByLocationQuery()
+
+  const handleGetBreweriesByLocation = (e: GeolocateResultEvent) => {
+    console.log("!@ Location: ", e)
+    const { latitude, longitude } = e.coords
+    getBreweriesByLocation({ lat: latitude, lng: longitude })
+  }
+
   const [viewState, setViewState] = useState({
     latitude: location?.lat || 40.678177,
     longitude: location?.lng || -73.94416,
@@ -130,7 +145,10 @@ const MapView: FC<MapViewProps> = ({}) => {
           mapboxAccessToken={KEY}
         >
           {breweryMarkers}
-          <GeolocateControl position="bottom-right" />
+          <GeolocateControl
+            position="bottom-right"
+            onGeolocate={(e) => handleGetBreweriesByLocation(e)}
+          />
         </Map>
       </Skeleton>
     </Flex>

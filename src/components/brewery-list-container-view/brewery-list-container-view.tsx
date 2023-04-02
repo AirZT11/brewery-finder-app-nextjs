@@ -20,7 +20,7 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
         zIndex="100"
         px="4"
         pb={2}
-        pt={{ base: 3, md: 0 }}
+        pt={{ base: 3, md: 2 }}
         boxShadow="lg"
       >
         <SearchView />
