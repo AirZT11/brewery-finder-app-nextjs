@@ -19,10 +19,14 @@ import {
 } from "../../store/features/api/breweriesApiSlice"
 import { SearchViewProps } from "./search-view.props"
 import { useRouter } from "next/router"
+import { useMap } from "react-map-gl"
+import { useUserLocation } from "../../hooks/useUserLocation"
 
 const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const [input, setInput] = useState("")
   const [searchBy, setSearchBy] = useState("Name")
+  const { myMapA } = useMap()
+  const { location } = useUserLocation()
 
   const options = ["Name", "Zip", "City", "State", "Type"]
 
@@ -73,18 +77,29 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
 
   const onInput = (e: any) => setInput(e.target.value)
 
+  const zoomMapOut = () =>
+    location &&
+    myMapA?.flyTo({
+      center: [location.lng, location.lat],
+      zoom: 3,
+      speed: 2,
+      curve: 1,
+    })
+
   const handleSubmit = () => {
     navigateToMapOnSubmit && router.push("/map")
     searchBy === "Name" && getBrewsByName(input)
     searchBy === "Zip" && getBrewsByZip(input)
     searchBy === "City" && getBrewsByCity(input)
     searchBy === "State" && getBrewsByState(input)
+    zoomMapOut()
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value.toLowerCase()
     setInput(value)
     searchBy === "Type" && getBrewsByType(value)
+    zoomMapOut()
   }
 
   return (
