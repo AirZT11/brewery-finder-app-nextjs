@@ -1,4 +1,5 @@
 import {
+  Box,
   Container,
   Flex,
   Heading,
@@ -7,6 +8,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
 } from "@chakra-ui/react"
 import { FC } from "react"
 import { useGetProfileQuery } from "../../store/features/api/profilesApiSlice"
@@ -24,36 +26,27 @@ const Profile: FC<ProfileProps> = ({ username }) => {
   })
 
   return (
-    <Container p="8" h="full">
-      <Flex direction="column" align="center">
-        {user?.avatar_url && (
-          <Avatar uid={user?.id!} url={user.avatar_url} size={200} />
+    // <Container p="8" h="full">
+    <Flex direction="column" align="center" p="8" h="100%" overflow="hidden">
+      {user?.avatar_url && (
+        <Avatar uid={user?.id!} url={user.avatar_url} size={150} />
+      )}
+      <Heading my="4">{username}</Heading>
+
+      {/* <Text>Reviews:</Text> */}
+      <Flex
+        overflow="auto"
+        borderColor="background.300"
+        borderWidth="2px"
+        p="4"
+        borderRadius="8"
+      >
+        {breweryRatings && (
+          <ReviewListView breweryRatings={breweryRatings} isProfileView />
         )}
-        <Heading my="4">{username}</Heading>
-        <Tabs
-          /* isFitted */ variant="unstyled"
-          overflow="auto"
-          maxHeight="1000px"
-          borderWidth="1px"
-          borderColor="gray.200"
-        >
-          <TabList mb="1em">
-            <Tab>Reviews</Tab>
-            {/* <Tab>Saved</Tab> */}
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              {breweryRatings && (
-                <ReviewListView breweryRatings={breweryRatings} isProfileView />
-              )}
-            </TabPanel>
-            {/* <TabPanel>
-              <p>two!</p>
-            </TabPanel> */}
-          </TabPanels>
-        </Tabs>
       </Flex>
-    </Container>
+    </Flex>
+    // </Container>
   )
 }
 

@@ -15,8 +15,13 @@ const AccountPage = () => {
         {!session ? (
           <Auth
             supabaseClient={supabase}
-            appearance={{ theme: ThemeSupa }}
-            theme="dark"
+            appearance={{
+              theme: ThemeSupa,
+              style: {
+                button: { background: "black", color: "white" },
+              },
+            }}
+            // theme="dark"
           />
         ) : (
           <Account session={session} />

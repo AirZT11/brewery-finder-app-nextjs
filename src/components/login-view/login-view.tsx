@@ -10,8 +10,12 @@ const LoginView: FC<LoginViewProps> = () => {
   return !session ? (
     <Auth
       supabaseClient={supabase}
-      appearance={{ theme: ThemeSupa }}
-      theme="dark"
+      appearance={{
+        style: {
+          button: { background: "red", color: "white" },
+        },
+      }}
+      // theme="dark"
     />
   ) : (
     <Account session={session} />

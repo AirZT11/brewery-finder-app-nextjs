@@ -22,7 +22,7 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
       <Flex
         position="sticky"
         top="0"
-        bg="background.100"
+        bg="background.300"
         zIndex="100"
         px="4"
         pb={2}

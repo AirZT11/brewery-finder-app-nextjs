@@ -21,9 +21,9 @@ const ProfilePage = () => {
 
   return (
     <Layout>
-      <Flex direction="column" h="100%" w="100%" align="center">
-        {username && <Profile username={username} />}
-      </Flex>
+      {/* <Flex direction="column" h="100%" w="100%" align="center"> */}
+      {username && <Profile username={username} />}
+      {/* </Flex> */}
     </Layout>
   )
 }

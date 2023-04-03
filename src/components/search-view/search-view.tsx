@@ -118,6 +118,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
       {searchBy !== "Type" ? (
         <Flex w="full">
           <Input
+            bg="white"
             placeholder="Search Brewery..."
             variant="outline"
             size="lg"
@@ -142,7 +143,11 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
               onClick={handleSubmit}
               size="lg"
               variant="outline"
-              // colorScheme="blackAlpha"
+              bg="background.100"
+              color="black"
+              _hover={{
+                bg: "white",
+              }}
               style={
                 input
                   ? { borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }
@@ -156,7 +161,14 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
           )}
         </Flex>
       ) : (
-        <Select placeholder="Select Type" onChange={handleSelect} size={"lg"}>
+        <Select
+          placeholder="Select Type"
+          cursor="pointer"
+          onChange={handleSelect}
+          size={"lg"}
+          h="58px"
+          bg="white"
+        >
           <option>Micro</option>
           <option>Nano</option>
           <option>Regional</option>
@@ -206,15 +218,22 @@ function RadioCard(props: any) {
       <Box
         {...checkbox}
         cursor="pointer"
-        borderWidth="1px"
+        // borderWidth="1px"
         borderRadius="md"
-        boxShadow="md"
-        _checked={{
-          bg: "brand.primary",
-          color: "black",
-          // borderColor: "black",
-          // borderWidth: "4px",
+        boxShadow="sm"
+        bg="background.100"
+        color="black"
+        fontWeight="bold"
+        _hover={{
+          bg: "white",
+          boxShadow: "xl",
         }}
+        _checked={{
+          bg: "black",
+          color: "white",
+          boxShadow: "xl",
+        }}
+        transition="150ms"
         // _focus={{
         //   boxShadow: "outline",
         // }}

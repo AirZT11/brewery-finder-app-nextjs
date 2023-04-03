@@ -18,16 +18,19 @@ import { NavBarViewProps } from "./nav-bar-view.props"
 import { AiOutlineMenu } from "react-icons/ai"
 import Link from "next/link"
 import useUserProfile from "../../hooks/useUserProfile"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 
 const NavBarView: FC<NavBarViewProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef<any>()
   const profile = useUserProfile()
+  const supabase = useSupabaseClient()
 
   return (
     <Flex
       w="full"
-      p={{ base: "2", md: "4" }}
+      py={2}
+      px={{ base: "2", md: "4" }}
       justifyContent="space-between"
       bg="background.100"
     >
@@ -37,9 +40,15 @@ const NavBarView: FC<NavBarViewProps> = () => {
       <>
         <IconButton
           ref={btnRef}
-          colorScheme="teal"
+          bg="background.100"
+          borderWidth="2px"
+          borderColor="background.100"
+          _hover={{
+            bg: "background.300",
+          }}
           aria-label="Open Nav"
           onClick={onOpen}
+          size="lg"
           icon={<AiOutlineMenu />}
         />
         <Drawer
@@ -50,13 +59,13 @@ const NavBarView: FC<NavBarViewProps> = () => {
         >
           ``
           <DrawerOverlay />
-          <DrawerContent bg="background.100">
+          <DrawerContent bg="background.100" borderLeftRadius={"xl"}>
             <DrawerCloseButton />
-            <DrawerHeader>
+            {/* <DrawerHeader>
               <Heading>The Brewery Finder</Heading>
-            </DrawerHeader>
+            </DrawerHeader> */}
 
-            <DrawerBody>
+            <DrawerBody py="10">
               <VStack direction="column" align="start" spacing={8}>
                 <Link href="/">
                   <Heading>Home</Heading>
@@ -75,12 +84,17 @@ const NavBarView: FC<NavBarViewProps> = () => {
               </VStack>
             </DrawerBody>
 
-            <DrawerFooter>
+            {/* <DrawerFooter>
               <Button variant="outline" mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="blue">Save</Button>
-            </DrawerFooter>
+              <Button
+                className="button block"
+                onClick={() => supabase.auth.signOut()}
+              >
+                Sign Out
+              </Button>
+            </DrawerFooter> */}
           </DrawerContent>
         </Drawer>
       </>
