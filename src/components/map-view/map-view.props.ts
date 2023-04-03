@@ -1,3 +1,3 @@
-import { BreweryState } from "../../store/features/breweriesSlice"
-
-export interface MapViewProps {}
+export interface MapViewProps {
+  children?: React.ReactNode
+}

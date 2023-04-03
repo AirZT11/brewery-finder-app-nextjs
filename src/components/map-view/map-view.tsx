@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
   Skeleton,
   IconButton,
+  Box,
 } from "@chakra-ui/react"
 import { FC, useMemo, useRef, useState } from "react"
 import useToggle from "../../hooks/useToggle"
@@ -23,7 +24,7 @@ import { useLazyGetBreweriesByLocationQuery } from "../../store/features/api/bre
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
-const MapView: FC<MapViewProps> = ({}) => {
+const MapView: FC<MapViewProps> = ({ children }) => {
   // const [selectedBrew, setSelectedBrew] = useState(null)
   const [mapLoaded, setMapLoaded] = useState(false)
   const { myMapA } = useMap()
@@ -140,7 +141,17 @@ const MapView: FC<MapViewProps> = ({}) => {
               }
             }}
           />
-          {/* {<Spinner />} */}
+          <Box
+            position={"absolute"}
+            top="2"
+            left="2"
+            right={{ base: "2", md: "inherit" }}
+            bottom={
+              breweries.length > 0 ? { base: "60%", md: "10" } : "inherit"
+            }
+          >
+            {children}
+          </Box>
         </Map>
       </Skeleton>
     </Flex>

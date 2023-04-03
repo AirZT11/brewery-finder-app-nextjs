@@ -14,8 +14,9 @@ const MapPage = () => {
         w="100%"
         overflow="hidden"
       >
-        <BreweryListContainerView />
-        <MapView />
+        <MapView>
+          <BreweryListContainerView />
+        </MapView>
       </Flex>
     </Layout>
   )

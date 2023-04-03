@@ -1,4 +1,4 @@
-import { Flex, Spinner } from "@chakra-ui/react"
+import { Flex, Heading, Spinner } from "@chakra-ui/react"
 import { FC } from "react"
 import { useUserLocation } from "../../hooks/useUserLocation"
 import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
@@ -19,9 +19,13 @@ const BreweryListView: FC<BreweryListViewProps> = ({}) => {
     skip: breweryIds.length < 1,
   })
 
+  console.log("!@ BREWERIES", breweries)
+
   loading && <Spinner />
   return (
     <Flex direction="column">
+      {/* TODO: If no breweries are returned from query, display prompt */}
+      {/* {!breweries.length && <Heading>No breweries found</Heading>} */}
       {breweries &&
         breweries.map((brewery) => (
           <BreweryCard key={brewery.id} brewery={brewery} />
