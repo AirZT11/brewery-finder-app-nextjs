@@ -35,6 +35,7 @@ export interface BreweryState {
 export interface BreweriesState {
   breweriesList: BreweryState[]
   selectedBrewery: BreweryState | null
+  breweriesLoading: boolean
 }
 
 /**
@@ -43,6 +44,7 @@ export interface BreweriesState {
 const initialState: BreweriesState = {
   breweriesList: [],
   selectedBrewery: null,
+  breweriesLoading: false,
 }
 
 /**
@@ -54,6 +56,9 @@ export const breweriesSlice = createSlice({
   reducers: {
     setSelectedBrewery(state, action: PayloadAction<BreweryState>) {
       state.selectedBrewery = action.payload
+    },
+    setBreweriesLoading(state, action: PayloadAction<boolean>) {
+      state.breweriesLoading = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -86,6 +91,7 @@ export const getBreweryState = (state: { brewery: BreweryState }) =>
   state.brewery
 
 // Exports all actions
-export const { setSelectedBrewery } = breweriesSlice.actions
+export const { setSelectedBrewery, setBreweriesLoading } =
+  breweriesSlice.actions
 
 export default breweriesSlice.reducer

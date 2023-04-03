@@ -8,6 +8,7 @@ import {
   Skeleton,
   IconButton,
   Box,
+  Spinner,
 } from "@chakra-ui/react"
 import { FC, useMemo, useState } from "react"
 import useToggle from "../../hooks/useToggle"
@@ -41,6 +42,9 @@ const MapView: FC<MapViewProps> = ({ children }) => {
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
   const selectedBrew = useAppSelector(
     (state) => state.breweries.selectedBrewery
+  )
+  const breweriesLoading = useAppSelector(
+    (state) => state.breweries.breweriesLoading
   )
 
   // Checks each brewery's marker position and sees if it within the current map's viewport
@@ -104,6 +108,8 @@ const MapView: FC<MapViewProps> = ({ children }) => {
     [breweries, selectedBrew]
   )
 
+  console.log("!@ BreweriesLoading", breweriesLoading)
+
   return (
     <Flex w="100%" h="100%" /* filter="blur(10px)" */>
       <Skeleton isLoaded={mapLoaded} w="100%" h="100%">
@@ -152,6 +158,26 @@ const MapView: FC<MapViewProps> = ({ children }) => {
           >
             {children}
           </Box>
+          {breweriesLoading && (
+            <Box
+              position="absolute"
+              left="0"
+              right="0"
+              top="0"
+              bottom="0"
+              // // m="auto"
+              h="full"
+              w="full"
+              bg="black"
+              opacity=".3"
+              // transition="200ms ease-in-out"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Spinner size="xl" />
+            </Box>
+          )}
         </Map>
       </Skeleton>
     </Flex>

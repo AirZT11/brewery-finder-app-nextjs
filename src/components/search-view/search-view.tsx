@@ -21,6 +21,9 @@ import { SearchViewProps } from "./search-view.props"
 import { useRouter } from "next/router"
 import { useMap } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
+import { UseQueryStateResult } from "@reduxjs/toolkit/dist/query/react/buildHooks"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { setBreweriesLoading } from "../../store/features/breweriesSlice"
 
 const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const [input, setInput] = useState("")
@@ -44,27 +47,8 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   const [getBrewsByState, stateResults] = useLazyGetBrewsByStateQuery()
   const [getBrewsByType, typeResults] = useLazyGetBrewsByTypeQuery()
 
-  const [loading, setLoading] = useState(false)
-  useEffect(() => {
-    if (
-      nameResults.isLoading ||
-      zipResults.isLoading ||
-      cityResults.isLoading ||
-      stateResults.isLoading ||
-      typeResults.isLoading
-    ) {
-      setLoading(true)
-    } else {
-      setLoading(false)
-    }
-  }, [
-    loading,
-    nameResults.isLoading,
-    zipResults.isLoading,
-    cityResults.isLoading,
-    stateResults.isLoading,
-    typeResults.isLoading,
-  ])
+  const dispatch = useAppDispatch()
+  const loading = useAppSelector((state) => state.breweries.breweriesLoading)
 
   const router = useRouter()
   const toast = useToast()
@@ -85,8 +69,8 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
       curve: 1,
     })
 
-  const noBreweriesToast = (response: any) => {
-    if (response.data.length === 0) {
+  const handleToast = (breweryResponse: any) => {
+    if (breweryResponse.length === 0) {
       toast({
         title: "Sorry, no breweries found.",
         description: "Please try another search.",
@@ -97,19 +81,29 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
     }
   }
 
+  // Handles the actions => response from the brewery query
+  const handleBrewQueryResponse = (response: any) => {
+    handleToast(response.data)
+    if (!response.data.isLoading) {
+      console.log("!@ setBreweriesLoading(false)")
+      dispatch(setBreweriesLoading(false))
+    }
+  }
+
   const handleSubmit = () => {
     navigateToMapOnSubmit && router.push("/map")
-    searchBy === "Name" && getBrewsByName(input).then(noBreweriesToast)
-    searchBy === "Zip" && getBrewsByZip(input).then(noBreweriesToast)
-    searchBy === "City" && getBrewsByCity(input).then(noBreweriesToast)
-    searchBy === "State" && getBrewsByState(input).then(noBreweriesToast)
+    dispatch(setBreweriesLoading(true))
+    searchBy === "Name" && getBrewsByName(input).then(handleBrewQueryResponse)
+    searchBy === "Zip" && getBrewsByZip(input).then(handleBrewQueryResponse)
+    searchBy === "City" && getBrewsByCity(input).then(handleBrewQueryResponse)
+    searchBy === "State" && getBrewsByState(input).then(handleBrewQueryResponse)
     zoomMapOut()
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value.toLowerCase()
     setInput(value)
-    searchBy === "Type" && getBrewsByType(value)
+    searchBy === "Type" && getBrewsByType(value).then(handleBrewQueryResponse)
     zoomMapOut()
   }
 

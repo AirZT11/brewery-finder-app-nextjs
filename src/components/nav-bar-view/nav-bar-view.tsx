@@ -33,6 +33,7 @@ const NavBarView: FC<NavBarViewProps> = () => {
       px={{ base: "2", md: "4" }}
       justifyContent="space-between"
       bg="background.100"
+      boxShadow="md"
     >
       <Link href="/">
         <Heading>BreweryFinder</Heading>
