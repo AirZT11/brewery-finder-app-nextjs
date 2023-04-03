@@ -29,18 +29,21 @@ export const ratingsApi = createApi({
   }),
   tagTypes: ["Ratings"],
   endpoints: (builder) => ({
-    getRatings: builder.query<RatingState[], string[]>({
+    getRatings: builder.query<RatingProps, string[]>({
+      // @ts-ignore
       queryFn: async (breweryIds) => {
         const { data } = await supabase
           .from("ratings")
           .select("*, userProfile:profiles(*)")
           .in("brewery_id", breweryIds)
+
         return { data }
       },
       providesTags: ["Ratings"],
     }),
     // Get breweries by username
     getRatingsByUserId: builder.query<RatingProps[], string>({
+      // @ts-ignore
       queryFn: async (userId) => {
         const { data } = await supabase
           .from("ratings")

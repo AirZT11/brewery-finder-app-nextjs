@@ -33,6 +33,7 @@ export const ratingsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(getRatings.matchFulfilled, (state, action) => {
+      // @ts-ignore
       state.ratingsList = action.payload
     })
     // builder.addMatcher(postRating.matchFulfilled, (state, action) => {

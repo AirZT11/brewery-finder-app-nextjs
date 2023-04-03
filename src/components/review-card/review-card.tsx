@@ -6,6 +6,7 @@ import { ReviewCardProps } from "./review-card.props"
 
 const ReviewCard: FC<ReviewCardProps> = ({ review, showBreweryName }) => {
   const { userProfile } = review
+  console.log("!@ REVIEW", review)
   const user = useUser()
   const createdAt = new Date(review.created_at)
   const createdAtDateTime = `${createdAt.toLocaleDateString()}`
