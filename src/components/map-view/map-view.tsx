@@ -9,10 +9,10 @@ import {
   IconButton,
   Box,
 } from "@chakra-ui/react"
-import { FC, useMemo, useRef, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
-import { GeolocateResultEvent, Map, MapRef, Marker, useMap } from "react-map-gl"
+import { Map, Marker, useMap } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
 // import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"

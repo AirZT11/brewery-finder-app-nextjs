@@ -27,8 +27,9 @@ export const breweriesApi = createApi({
         // providesTags: ["Breweries"],
       }
     ),
+    // TODO: Add an endpoint that fetches the correct metadata for type of brewery request
     getBrewsByName: builder.query<BreweryState[], string>({
-      query: (input) => `/breweries/search?query=${input}`,
+      query: (input) => `/breweries?by_name=${input}`,
     }),
     getBrewsByZip: builder.query<BreweryState[], string>({
       query: (input) => `/breweries?by_postal=${input}`,

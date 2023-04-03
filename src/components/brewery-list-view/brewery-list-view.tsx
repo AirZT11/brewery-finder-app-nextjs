@@ -19,8 +19,6 @@ const BreweryListView: FC<BreweryListViewProps> = ({}) => {
     skip: breweryIds.length < 1,
   })
 
-  console.log("!@ BREWERIES", breweries)
-
   loading && <Spinner />
   return (
     <Flex direction="column">

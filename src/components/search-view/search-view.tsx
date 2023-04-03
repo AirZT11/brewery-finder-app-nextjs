@@ -7,10 +7,10 @@ import {
   useRadio,
   useRadioGroup,
   HStack,
+  useToast,
 } from "@chakra-ui/react"
 import { FC, useEffect, useState } from "react"
 import {
-  useGetBreweriesByLocationQuery,
   useLazyGetBrewsByCityQuery,
   useLazyGetBrewsByNameQuery,
   useLazyGetBrewsByStateQuery,
@@ -53,10 +53,8 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
       stateResults.isLoading ||
       typeResults.isLoading
     ) {
-      console.log("!@ setLoading true")
       setLoading(true)
     } else {
-      console.log("!@ setLoading false")
       setLoading(false)
     }
   }, [
@@ -69,6 +67,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
   ])
 
   const router = useRouter()
+  const toast = useToast()
 
   // TODO: Utilize debounce for autocomplete via BreweryDB API
   // const onInput = debounce((e) => {
@@ -86,12 +85,24 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
       curve: 1,
     })
 
+  const noBreweriesToast = (response: any) => {
+    if (response.data.length === 0) {
+      toast({
+        title: "Sorry, no breweries found.",
+        description: "Please try another search.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  }
+
   const handleSubmit = () => {
     navigateToMapOnSubmit && router.push("/map")
-    searchBy === "Name" && getBrewsByName(input)
-    searchBy === "Zip" && getBrewsByZip(input)
-    searchBy === "City" && getBrewsByCity(input)
-    searchBy === "State" && getBrewsByState(input)
+    searchBy === "Name" && getBrewsByName(input).then(noBreweriesToast)
+    searchBy === "Zip" && getBrewsByZip(input).then(noBreweriesToast)
+    searchBy === "City" && getBrewsByCity(input).then(noBreweriesToast)
+    searchBy === "State" && getBrewsByState(input).then(noBreweriesToast)
     zoomMapOut()
   }
 
