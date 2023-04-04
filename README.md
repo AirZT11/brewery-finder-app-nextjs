@@ -4,9 +4,12 @@ Welcome beer enthusiast, and welcome to [The Brewery Finder](https://the-brewery
 ## Check it out!
 [The Brewery Finder](https://the-brewery-finder.vercel.app/)
 
+<img width="500" alt="Homepage" src="https://user-images.githubusercontent.com/63180403/229860856-a4c0f423-aa00-47b3-801d-261fc5b61f3e.png">
+<img width="500" alt="Map page" src="https://user-images.githubusercontent.com/63180403/229860900-656ca818-dad5-4a92-a648-4466c5e87ed5.png">
+
+
 ## Prerequisites
 Before running the application, make sure you have the following installed:
-
 - **Node.js**
 - **NPM** or **Yarn**
 - A valid **Mapbox API key**
@@ -28,6 +31,7 @@ Before running the application, make sure you have the following installed:
 The Brewery Finder allows users to:
 
 * Search for breweries by name or location
+* Rate brewery and write a review
 * View details about each brewery, including its address, website, etc...
 * View breweries on a map
 
