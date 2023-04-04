@@ -88,13 +88,20 @@ export default function Account({ session }: AccountProps) {
           updateProfile({ username, avatar_url: url })
         }}
       />
-      <Flex>
+      <Flex w="full">
         <FormLabel htmlFor="email">Email</FormLabel>
-        <Input id="email" type="text" value={session.user.email} disabled />
+        <Input
+          id="email"
+          type="text"
+          value={session.user.email}
+          disabled
+          bg="white"
+        />
       </Flex>
-      <Flex>
+      <Flex w="full">
         <FormLabel htmlFor="username">Username</FormLabel>
         <Input
+          bg="white"
           id="username"
           type="text"
           value={username || ""}

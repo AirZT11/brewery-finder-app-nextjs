@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react"
+import { Box, Fade, Flex } from "@chakra-ui/react"
 import { FC } from "react"
 import { useAppSelector } from "../../store/hooks"
 import BreweryListView from "../brewery-list-view/brewery-list-view"
@@ -10,36 +10,38 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
 
   return (
-    <Flex
-      opacity=".93"
-      direction="column"
-      background="background.100"
-      h={breweries.length > 0 ? "100%" : "inherit"}
-      overflow="scroll"
-      maxW={{ base: "full", md: "400px" }}
-      borderRadius="8"
-      boxShadow={"md"}
-    >
-      {/* <motion.div
+    <Fade in={true}>
+      <Flex
+        opacity=".93"
+        direction="column"
+        background="background.100"
+        h={breweries.length > 0 ? "100%" : "inherit"}
+        overflow="scroll"
+        maxW={{ base: "full", md: "400px" }}
+        borderRadius="8"
+        boxShadow={"md"}
+      >
+        {/* <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ speed: 1 }}
       > */}
-      <Flex
-        position="sticky"
-        top="0"
-        bg="background.300"
-        zIndex="100"
-        px="4"
-        pb={2}
-        pt={{ base: 3, md: 2 }}
-        boxShadow="lg"
-      >
-        <SearchView />
+        <Flex
+          position="sticky"
+          top="0"
+          bg="background.300"
+          zIndex="100"
+          px="4"
+          pb={2}
+          pt={{ base: 3, md: 2 }}
+          boxShadow="lg"
+        >
+          <SearchView />
+        </Flex>
+        {breweries && <BreweryListView />}
+        {/* </motion.div> */}
       </Flex>
-      {breweries && <BreweryListView />}
-      {/* </motion.div> */}
-    </Flex>
+    </Fade>
   )
 }
 
