@@ -4,6 +4,7 @@ import { useAppSelector } from "../../store/hooks"
 import BreweryListView from "../brewery-list-view/brewery-list-view"
 import SearchView from "../search-view/search-view"
 import { BreweryListContainerViewProps } from "./brewery-list-container-view.props"
+import { motion } from "framer-motion"
 
 const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
@@ -15,10 +16,15 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
       background="background.100"
       h={breweries.length > 0 ? "100%" : "inherit"}
       overflow="scroll"
-      minW={{ base: "full", md: "400px" }}
+      maxW={{ base: "full", md: "400px" }}
       borderRadius="8"
       boxShadow={"md"}
     >
+      {/* <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ speed: 1 }}
+      > */}
       <Flex
         position="sticky"
         top="0"
@@ -32,6 +38,7 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
         <SearchView />
       </Flex>
       {breweries && <BreweryListView />}
+      {/* </motion.div> */}
     </Flex>
   )
 }

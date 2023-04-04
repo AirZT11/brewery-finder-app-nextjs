@@ -7,7 +7,13 @@ interface LayoutProps {
 }
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <Flex direction="column" w="100vw" h="100vh" bg="brand.primary">
+    <Flex
+      direction="column"
+      w="100vw"
+      h="100vh"
+      // bg="brand.primary"
+      bgGradient={"linear(to-b, rgb(255 220 98), brand.primary)"}
+    >
       <NavBarView />
       {children}
     </Flex>

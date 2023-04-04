@@ -108,11 +108,9 @@ const MapView: FC<MapViewProps> = ({ children }) => {
     [breweries, selectedBrew]
   )
 
-  console.log("!@ BreweriesLoading", breweriesLoading)
-
   return (
     <Flex w="100%" h="100%" /* filter="blur(10px)" */>
-      <Skeleton isLoaded={mapLoaded} w="100%" h="100%">
+      <Skeleton isLoaded={mapLoaded} w="100%" h="100%" fadeDuration={1}>
         <Map
           attributionControl={false}
           id="myMapA"

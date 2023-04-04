@@ -38,6 +38,7 @@ const Profile: FC<ProfileProps> = ({ username }) => {
         overflow="auto"
         borderColor="background.300"
         borderWidth="2px"
+        bg="background.100"
         p="4"
         borderRadius="8"
       >
