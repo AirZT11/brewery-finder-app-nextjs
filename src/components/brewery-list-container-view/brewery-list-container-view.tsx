@@ -10,7 +10,10 @@ const BreweryListContainerView: FC<BreweryListContainerViewProps> = () => {
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
 
   return (
-    <Fade in={true}>
+    <Fade
+      in={true}
+      style={{ height: breweries.length > 0 ? "100%" : "inherit" }}
+    >
       <Flex
         opacity=".93"
         direction="column"
