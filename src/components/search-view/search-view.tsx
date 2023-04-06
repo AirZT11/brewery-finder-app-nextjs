@@ -9,7 +9,7 @@ import {
   HStack,
   useToast,
 } from "@chakra-ui/react"
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import {
   useLazyGetBrewsByCityQuery,
   useLazyGetBrewsByNameQuery,
@@ -83,6 +83,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
 
   // Handles the actions => response from the brewery query
   const handleBrewQueryResponse = (response: any) => {
+    zoomMapOut()
     handleToast(response.data)
     if (!response.data.isLoading) {
       console.log("!@ setBreweriesLoading(false)")
@@ -97,7 +98,6 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
     searchBy === "Zip" && getBrewsByZip(input).then(handleBrewQueryResponse)
     searchBy === "City" && getBrewsByCity(input).then(handleBrewQueryResponse)
     searchBy === "State" && getBrewsByState(input).then(handleBrewQueryResponse)
-    zoomMapOut()
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {

@@ -8,20 +8,18 @@ import {
   Skeleton,
   IconButton,
   Box,
-  Spinner,
 } from "@chakra-ui/react"
 import { FC, useMemo, useState } from "react"
-import useToggle from "../../hooks/useToggle"
 import { MapViewProps } from "./map-view.props"
 import { Map, Marker, useMap } from "react-map-gl"
 import { useUserLocation } from "../../hooks/useUserLocation"
-// import { useGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import Image from "next/image"
 import { useAppSelector } from "../../store/hooks"
 import { TriangleDownIcon } from "@chakra-ui/icons"
 import { BsCircleFill } from "react-icons/bs"
 import { BiCurrentLocation } from "react-icons/bi"
 import { useLazyGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
+import LoadingOverlay from "../loading-overlay/loading-overlay"
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
@@ -156,26 +154,7 @@ const MapView: FC<MapViewProps> = ({ children }) => {
           >
             {children}
           </Box>
-          {breweriesLoading && (
-            <Box
-              position="absolute"
-              left="0"
-              right="0"
-              top="0"
-              bottom="0"
-              // // m="auto"
-              h="full"
-              w="full"
-              bg="black"
-              opacity=".3"
-              // transition="200ms ease-in-out"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Spinner size="xl" />
-            </Box>
-          )}
+          {breweriesLoading && <LoadingOverlay />}
         </Map>
       </Skeleton>
     </Flex>

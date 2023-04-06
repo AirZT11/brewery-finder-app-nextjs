@@ -32,9 +32,9 @@ const BreweryListView: FC<BreweryListViewProps> = ({}) => {
   return (
     <Flex direction="column">
       <motion.div
-        variants={container}
         initial="hidden"
         animate="show"
+        variants={container}
         style={{ display: "flex", flexDirection: "column" }}
       >
         {/* TODO: If no breweries are returned from query, display prompt */}

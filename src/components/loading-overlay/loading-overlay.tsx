@@ -3,19 +3,23 @@ import { motion } from "framer-motion"
 import { FC } from "react"
 
 interface LoadingOverlayProps {
-  isLoading: boolean
+  // isLoading: boolean
 }
 
-const LoadingOverlay: FC<LoadingOverlayProps> = ({ isLoading }) => {
+const LoadingOverlay: FC<LoadingOverlayProps> = ({}) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
-      }}
+      // transition={{
+      //   type: "spring",
+      //   stiffness: 260,
+      //   damping: 20,
+      // }}
+      // variants={{
+      //   hidden: { opacity: 0 },
+      //   show: { opacity: 1 }
+      // }}
     >
       <Box
         position="absolute"

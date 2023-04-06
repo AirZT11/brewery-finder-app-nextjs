@@ -4,8 +4,12 @@ import Layout from "../layout/layout"
 import SearchView from "../search-view/search-view"
 import { HomepageViewProps } from "./homepage-view.props"
 import { motion } from "framer-motion"
+import { useAppSelector } from "../../store/hooks"
+import LoadingOverlay from "../loading-overlay/loading-overlay"
 
 export const HomepageView: FC<HomepageViewProps> = () => {
+  const loading = useAppSelector((state) => state.breweries.breweriesLoading)
+  console.log("!@ loading", loading)
   return (
     <Layout>
       <motion.div
@@ -36,6 +40,7 @@ export const HomepageView: FC<HomepageViewProps> = () => {
           <SearchView navigateToMapOnSubmit />
         </Flex>
       </motion.div>
+      {loading && <LoadingOverlay />}
     </Layout>
   )
 }
