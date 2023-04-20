@@ -29,8 +29,9 @@ const AccountPage = () => {
             appearance={{
               theme: ThemeSupa,
               style: {
-                button: { background: "black", color: "white" },
-                input: { background: "black", color: "white" },
+                button: { background: "white", color: "black", border: "none" },
+                input: { background: "white", color: "black" },
+                container: { width: "300px" },
               },
             }}
             // theme="dark"

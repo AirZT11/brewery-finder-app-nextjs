@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../utils/database.types"
 import Image from "next/image"
-import { Flex, FormLabel, Text } from "@chakra-ui/react"
+import { Flex, FormLabel, Text, Avatar } from "@chakra-ui/react"
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"]
 
-export default function Avatar({
+export default function UserAvatar({
   uid,
   url,
   size,
@@ -73,24 +73,7 @@ export default function Avatar({
 
   return (
     <Flex flexDirection="column" w="full" align="center">
-      {avatarUrl ? (
-        <Image
-          src={avatarUrl}
-          alt="Avatar"
-          className="avatar image"
-          height={size}
-          width={size}
-        />
-      ) : (
-        <>
-          <Image
-            src={"/noun-drinking-beer-886388.svg"}
-            alt="avatar no-image"
-            height={size}
-            width={size}
-          />
-        </>
-      )}
+      <Avatar src={avatarUrl!} size="2xl" />
       {onUpload && (
         <div style={{ width: size }}>
           <FormLabel

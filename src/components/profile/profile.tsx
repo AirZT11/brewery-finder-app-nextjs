@@ -13,7 +13,7 @@ import {
 import { FC } from "react"
 import { useGetProfileQuery } from "../../store/features/api/profilesApiSlice"
 import { useGetRatingsByUserIdQuery } from "../../store/features/api/ratingsApiSlice"
-import Avatar from "../avatar/avatar"
+import UserAvatar from "../user-avatar/user-avatar"
 import ReviewListView from "../review-list-view/review-list-view"
 import { ProfileProps } from "./profile.props"
 
@@ -29,7 +29,7 @@ const Profile: FC<ProfileProps> = ({ username }) => {
     // <Container p="8" h="full">
     <Flex direction="column" align="center" p="8" h="100%" overflow="hidden">
       {user?.avatar_url && (
-        <Avatar uid={user?.id!} url={user.avatar_url} size={150} />
+        <UserAvatar uid={user?.id!} url={user.avatar_url} size={150} />
       )}
       <Heading my="4">{username}</Heading>
 

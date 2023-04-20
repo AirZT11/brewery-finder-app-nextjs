@@ -4,7 +4,7 @@ import {
   useSupabaseClient,
   Session,
 } from "@supabase/auth-helpers-react"
-import Avatar from "../avatar/avatar"
+import UserAvatar from "../user-avatar/user-avatar"
 import { Button, Flex, FormLabel, Input, VStack } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 
@@ -90,7 +90,7 @@ export default function Account({ session }: AccountProps) {
       exit={{ opacity: 0, scale: 0.5 }}
     >
       <VStack spacing={4} align="start">
-        <Avatar
+        <UserAvatar
           uid={user?.id!}
           url={avatar_url}
           size={300}
