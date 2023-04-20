@@ -19,7 +19,7 @@ const AccountPage = () => {
   return (
     <Layout>
       <Head>
-        <title>{`Your Account - ${user?.username}`}</title>
+        <title>{`Account - ${user?.username || "Login or Signup"}`}</title>
         <meta name="description" content={"Your Account Page"} />
       </Head>
       <Flex w="100%" h="100%" justify="center" p="10">
@@ -30,6 +30,7 @@ const AccountPage = () => {
               theme: ThemeSupa,
               style: {
                 button: { background: "black", color: "white" },
+                input: { background: "black", color: "white" },
               },
             }}
             // theme="dark"

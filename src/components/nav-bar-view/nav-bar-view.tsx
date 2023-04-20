@@ -12,19 +12,22 @@ import {
   IconButton,
   useDisclosure,
   VStack,
+  Icon,
 } from "@chakra-ui/react"
 import { FC, useRef } from "react"
 import { NavBarViewProps } from "./nav-bar-view.props"
 import { AiOutlineMenu } from "react-icons/ai"
+import { MdLogout, MdLogin } from "react-icons/md"
 import Link from "next/link"
 import useUserProfile from "../../hooks/useUserProfile"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 
 const NavBarView: FC<NavBarViewProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef<any>()
   const profile = useUserProfile()
   const supabase = useSupabaseClient()
+  const session = useSession()
 
   return (
     <Flex
@@ -63,7 +66,7 @@ const NavBarView: FC<NavBarViewProps> = () => {
           <DrawerContent bg="background.100" borderLeftRadius={"xl"}>
             <DrawerCloseButton />
             {/* <DrawerHeader>
-              <Heading>The Brewery Finder</Heading>
+              <Heading>The BreweryFinder</Heading>
             </DrawerHeader> */}
 
             <DrawerBody py="10">
@@ -79,23 +82,33 @@ const NavBarView: FC<NavBarViewProps> = () => {
                     <Heading>Profile</Heading>
                   </Link>
                 )}
-                <Link href="/account">
-                  <Heading>My Account</Heading>
-                </Link>
+                {session && (
+                  <Link href="/account">
+                    <Heading>My Account</Heading>
+                  </Link>
+                )}
               </VStack>
             </DrawerBody>
 
-            {/* <DrawerFooter>
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button
-                className="button block"
-                onClick={() => supabase.auth.signOut()}
-              >
-                Sign Out
-              </Button>
-            </DrawerFooter> */}
+            <DrawerFooter>
+              {session ? (
+                <Button
+                  variant="outline"
+                  aria-label="Logout"
+                  onClick={() => supabase.auth.signOut()}
+                >
+                  Logout
+                  <Icon as={MdLogout} ml="2" />
+                </Button>
+              ) : (
+                <Link href="/account">
+                  <Button onClick={onClose}>
+                    Login
+                    <Icon as={MdLogin} ml="2" />
+                  </Button>
+                </Link>
+              )}
+            </DrawerFooter>
           </DrawerContent>
         </Drawer>
       </>
