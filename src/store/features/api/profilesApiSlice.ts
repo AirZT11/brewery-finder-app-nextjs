@@ -29,7 +29,7 @@ export const profilesApi = createApi({
         return { data }
       },
     }),
-    getProfileByUserId: builder.query({
+    getProfileByUserId: builder.query<UserProfileProps, string>({
       queryFn: async (userId) => {
         const { data, error, status } = await supabase
           .from("profiles")

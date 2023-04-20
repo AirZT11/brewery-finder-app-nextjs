@@ -1,4 +1,5 @@
 import { Container, Flex, Heading } from "@chakra-ui/react"
+import Head from "next/head"
 import { MapProvider } from "react-map-gl"
 import BreweryListContainerView from "../components/brewery-list-container-view/brewery-list-container-view"
 import Layout from "../components/layout/layout"
@@ -7,18 +8,24 @@ import { wrapper } from "../store/store"
 
 const MapPage = () => {
   return (
-    <Layout>
-      <Flex
-        direction={{ base: "column-reverse", md: "row" }}
-        h="100%"
-        w="100%"
-        overflow="hidden"
-      >
-        <MapView>
-          <BreweryListContainerView />
-        </MapView>
-      </Flex>
-    </Layout>
+    <>
+      <Head>
+        <title>The BreweryFinder Map</title>
+        <meta name="description" content={"Map Page"} />
+      </Head>
+      <Layout>
+        <Flex
+          direction={{ base: "column-reverse", md: "row" }}
+          h="100%"
+          w="100%"
+          overflow="hidden"
+        >
+          <MapView>
+            <BreweryListContainerView />
+          </MapView>
+        </Flex>
+      </Layout>
+    </>
   )
 }
 

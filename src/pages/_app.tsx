@@ -25,6 +25,14 @@ function MyApp({
       initialSession={pageProps.initialSession}
     >
       <MapProvider>
+        <Head>
+          <link rel="beer icon" href="/beerIcon.svg" />
+          <title>The BreweryFinder</title>
+          <meta
+            name="description"
+            content={"Welcome to The BreweryFinder. Created by Sam Kim"}
+          />
+        </Head>
         <ChakraProvider theme={theme}>
           <Component {...pageProps} />
         </ChakraProvider>

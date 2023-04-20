@@ -18,15 +18,15 @@ interface ProfileProps {
 }
 
 export default function Account({ session }: AccountProps) {
-  const supabase = useSupabaseClient()
-  const user = useUser()
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState("")
   const [avatar_url, setAvatarUrl] = useState("")
+  const supabase = useSupabaseClient()
+  const user = useUser()
 
   useEffect(() => {
     getProfile()
-  }, [session])
+  }, [session]) // eslint-disable-line
 
   async function getProfile() {
     try {
