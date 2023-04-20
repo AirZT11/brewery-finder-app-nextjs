@@ -13,12 +13,13 @@ import {
   useDisclosure,
   VStack,
   Icon,
+  Link,
 } from "@chakra-ui/react"
 import { FC, useRef } from "react"
 import { NavBarViewProps } from "./nav-bar-view.props"
 import { AiOutlineMenu } from "react-icons/ai"
 import { MdLogout, MdLogin } from "react-icons/md"
-import Link from "next/link"
+import NextLink from "next/link"
 import useUserProfile from "../../hooks/useUserProfile"
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 
@@ -71,19 +72,19 @@ const NavBarView: FC<NavBarViewProps> = () => {
 
             <DrawerBody py="10">
               <VStack direction="column" align="start" spacing={8}>
-                <Link href="/">
+                <Link as={NextLink} href="/">
                   <Heading>Home</Heading>
                 </Link>
-                <Link href="/map">
+                <Link as={NextLink} href="/map">
                   <Heading>Map</Heading>
                 </Link>
                 {profile && (
-                  <Link href={`/profile/${profile.username}`}>
+                  <Link as={NextLink} href={`/profile/${profile.username}`}>
                     <Heading>Profile</Heading>
                   </Link>
                 )}
                 {session && (
-                  <Link href="/account">
+                  <Link as={NextLink} href="/account">
                     <Heading>My Account</Heading>
                   </Link>
                 )}
