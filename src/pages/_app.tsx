@@ -10,6 +10,7 @@ import theme from "../theme"
 const { wrapper } = require("../store/store")
 import "@fontsource/raleway/400.css"
 import "@fontsource/lobster-two/700.css"
+import Head from "next/head"
 
 function MyApp({
   Component,
