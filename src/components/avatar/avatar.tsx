@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../utils/database.types"
+import Image from "next/image"
+import { Flex, FormLabel, Text } from "@chakra-ui/react"
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"]
 
 export default function Avatar({
@@ -20,7 +22,7 @@ export default function Avatar({
 
   useEffect(() => {
     if (url) downloadImage(url)
-  }, [url])
+  }, [url]) // eslint-disable-line
 
   async function downloadImage(path: string) {
     try {
@@ -70,25 +72,40 @@ export default function Avatar({
   }
 
   return (
-    <div>
+    <Flex flexDirection="column" w="full" align="center">
       {avatarUrl ? (
-        <img
+        <Image
           src={avatarUrl}
           alt="Avatar"
           className="avatar image"
-          style={{ height: size, width: size }}
+          height={size}
+          width={size}
         />
       ) : (
-        <div
-          className="avatar no-image"
-          style={{ height: size, width: size }}
-        />
+        <>
+          <Image
+            src={"/noun-drinking-beer-886388.svg"}
+            alt="avatar no-image"
+            height={size}
+            width={size}
+          />
+        </>
       )}
       {onUpload && (
         <div style={{ width: size }}>
-          <label className="button primary block" htmlFor="single">
-            {uploading ? "Uploading ..." : "Upload"}
-          </label>
+          <FormLabel
+            htmlFor="single"
+            _hover={{ background: "gray.200" }}
+            transition={"100ms"}
+            cursor="pointer"
+            p="2"
+            bg="gray.100"
+            borderRadius={6}
+            mt="2"
+            textAlign={"center"}
+          >
+            {uploading ? "Uploading ..." : "Upload new image"}
+          </FormLabel>
           <input
             style={{
               visibility: "hidden",
@@ -102,6 +119,6 @@ export default function Avatar({
           />
         </div>
       )}
-    </div>
+    </Flex>
   )
 }

@@ -6,6 +6,7 @@ import {
 } from "@supabase/auth-helpers-react"
 import Avatar from "../avatar/avatar"
 import { Button, Flex, FormLabel, Input, VStack } from "@chakra-ui/react"
+import { motion } from "framer-motion"
 
 interface AccountProps {
   session: Session
@@ -78,48 +79,62 @@ export default function Account({ session }: AccountProps) {
   }
 
   return (
-    <VStack spacing={4} align="start">
-      <Avatar
-        uid={user?.id!}
-        url={avatar_url}
-        size={300}
-        onUpload={(url) => {
-          setAvatarUrl(url)
-          updateProfile({ username, avatar_url: url })
-        }}
-      />
-      <Flex w="full">
-        <FormLabel htmlFor="email">Email</FormLabel>
-        <Input
-          id="email"
-          type="text"
-          value={session.user.email}
-          disabled
-          bg="white"
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+      exit={{ opacity: 0, scale: 0.5 }}
+    >
+      <VStack spacing={4} align="start">
+        <Avatar
+          uid={user?.id!}
+          url={avatar_url}
+          size={300}
+          onUpload={(url) => {
+            setAvatarUrl(url)
+            updateProfile({ username, avatar_url: url })
+          }}
         />
-      </Flex>
-      <Flex w="full">
-        <FormLabel htmlFor="username">Username</FormLabel>
-        <Input
-          bg="white"
-          id="username"
-          type="text"
-          value={username || ""}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </Flex>
+        <Flex w="full">
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <Input
+            id="email"
+            type="text"
+            value={session.user.email}
+            disabled
+            bg="white"
+          />
+        </Flex>
+        <Flex w="full">
+          <FormLabel htmlFor="username">Username</FormLabel>
+          <Input
+            bg="white"
+            id="username"
+            type="text"
+            value={username || ""}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Flex>
 
-      <Button
-        className="button primary block"
-        onClick={() => updateProfile({ username, avatar_url })}
-        disabled={loading}
-      >
-        {loading ? "Loading ..." : "Update"}
-      </Button>
+        <Button
+          className="button primary block"
+          onClick={() => updateProfile({ username, avatar_url })}
+          disabled={loading}
+        >
+          {loading ? "Loading ..." : "Update"}
+        </Button>
 
-      <Button className="button block" onClick={() => supabase.auth.signOut()}>
-        Sign Out
-      </Button>
-    </VStack>
+        <Button
+          className="button block"
+          onClick={() => supabase.auth.signOut()}
+        >
+          Sign Out
+        </Button>
+      </VStack>
+    </motion.div>
   )
 }
