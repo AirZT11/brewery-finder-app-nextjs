@@ -1,12 +1,12 @@
-import { Flex, Heading, Text } from "@chakra-ui/react"
+import { Flex, Heading, Link, Text } from "@chakra-ui/react"
 import { useUser } from "@supabase/auth-helpers-react"
+import NextLink from "next/link"
 import { FC } from "react"
 import { Rating } from "react-simple-star-rating"
 import { ReviewCardProps } from "./review-card.props"
 
 const ReviewCard: FC<ReviewCardProps> = ({ review, showBreweryName }) => {
   const { userProfile } = review
-  console.log("!@ REVIEW", review)
   const user = useUser()
   const createdAt = new Date(review.created_at)
   const createdAtDateTime = `${createdAt.toLocaleDateString()}`
@@ -18,7 +18,13 @@ const ReviewCard: FC<ReviewCardProps> = ({ review, showBreweryName }) => {
       <Flex direction="column">
         {showBreweryName && <Heading size="md">{breweryName}</Heading>}
         <Flex>
-          <Text>{userProfile.username}</Text>
+          <Link
+            as={NextLink}
+            href={`/profile/${userProfile.username}`}
+            isExternal
+          >
+            {userProfile.username}
+          </Link>
           {user?.id === userProfile.id && (
             <Text ml="1" color="gray">
               (you)
