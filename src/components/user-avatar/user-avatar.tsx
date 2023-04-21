@@ -75,17 +75,15 @@ export default function UserAvatar({
     <Flex flexDirection="column" w="full" align="center">
       <Avatar src={avatarUrl!} size="2xl" />
       {onUpload && (
-        <div style={{ width: size }}>
+        <Flex flexDirection="column" w="full">
           <FormLabel
             htmlFor="single"
-            _hover={{ background: "gray.200" }}
-            transition={"100ms"}
+            _hover={{ textDecoration: "underline" }}
             cursor="pointer"
-            p="2"
-            bg="gray.100"
-            borderRadius={6}
-            mt="2"
+            mt="4"
             textAlign={"center"}
+            w="full"
+            fontSize="sm"
           >
             {uploading ? "Uploading ..." : "Upload new image"}
           </FormLabel>
@@ -100,7 +98,7 @@ export default function UserAvatar({
             onChange={uploadAvatar}
             disabled={uploading}
           />
-        </div>
+        </Flex>
       )}
     </Flex>
   )
