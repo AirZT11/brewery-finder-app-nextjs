@@ -7,6 +7,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast,
   VStack,
 } from "@chakra-ui/react"
 import { ErrorMessage, Field, Form, Formik } from "formik"
@@ -21,17 +22,32 @@ interface SignupCredentials {
 export default function Signup() {
   const [loading, setLoading] = useState(false)
   const supabase = useSupabaseClient()
+  const toast = useToast()
 
   const handleSignup = async (credentials: SignupCredentials) => {
     setLoading(true)
-    const { data, error } = await supabase.auth.signUp(credentials)
-    if (error) {
-      console.error(error)
-    } else {
-      // TODO: Display notification when signed up
-      console.log(data.user)
+
+    try {
+      const { data, error } = await supabase.auth.signUp(credentials)
+      if (error) throw error
+      toast({
+        title: "Welcome to The BreweryFinder!",
+        description: "Enjoy your journey into the world of breweries!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      })
+    } catch (error) {
+      toast({
+        title: "Sorry there was an error signing up",
+        description: "Please try again",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const initialValues: SignupCredentials = {
@@ -46,12 +62,11 @@ export default function Signup() {
       validationSchema={Yup.object({
         email: Yup.string().email("Invalid email address").required("Required"),
         username: Yup.string()
-          .max(15, "Must be 15 characters or less")
+          .max(20, "Must be 20 characters or less")
           .required("Required"),
         password: Yup.string().required("Required"),
       })}
       onSubmit={(values) => {
-        // alert(JSON.stringify(values, null, 2))
         handleSignup(values)
       }}
     >

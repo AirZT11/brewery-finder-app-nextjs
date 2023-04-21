@@ -9,6 +9,7 @@ import {
   Heading,
   Input,
   Text,
+  useToast,
   VStack,
 } from "@chakra-ui/react"
 
@@ -19,8 +20,8 @@ interface LoginCredentials {
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
-  const [loginError, setLoginError] = useState<string | null>(null)
   const supabase = useSupabaseClient()
+  const toast = useToast()
 
   async function handleLogin(credentials: LoginCredentials) {
     setLoading(true)
@@ -29,17 +30,22 @@ export default function Login() {
       const { data, error } = await supabase.auth.signInWithPassword(
         credentials
       )
-
       if (error) throw error
-
-      // TODO: Display notification when logged in
-      console.log(data)
-      // alert("Logged in successfully!")
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully logged in",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      })
     } catch (error) {
-      alert(error)
-      setLoginError(
-        "Sorry, the entered email or password was incorrect. Please try again"
-      )
+      toast({
+        title: "Sorry, the entered email or password was incorrect",
+        description: "Please try again",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
     } finally {
       setLoading(false)
     }
@@ -96,7 +102,6 @@ export default function Login() {
             <Button type="submit" disabled={loading} isLoading={loading}>
               Submit
             </Button>
-            {loginError && <Text>{loginError}</Text>}
           </VStack>
         </Form>
       )}
