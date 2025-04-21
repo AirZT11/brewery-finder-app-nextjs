@@ -13,7 +13,7 @@ export interface UserProfileProps {
 export const profilesApi = createApi({
   reducerPath: "profilesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://ktczcbuhepauvpvgteuf.supabase.co/rest/v1",
+    baseUrl: "https://jbdzoghbkueiepatvray.supabase.co",
     prepareHeaders: (headers) => {
       headers.set("apiKey", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
     },

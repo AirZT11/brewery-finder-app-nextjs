@@ -201,16 +201,16 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
 }
 
 function RadioCard(props: any) {
-  const { getInputProps, getCheckboxProps } = useRadio(props)
+  const { getInputProps } = useRadio(props)
 
   const input = getInputProps()
-  const checkbox = getCheckboxProps()
+  // const checkbox = getCheckboxProps()
 
   return (
     <Box as="label" w="full">
       <input {...input} />
       <Box
-        {...checkbox}
+        // {...checkbox}
         cursor="pointer"
         // borderWidth="1px"
         borderRadius="md"

@@ -10,7 +10,7 @@ export interface Location {
 export const breweriesApi = createApi({
   reducerPath: "breweriesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: " https://api.openbrewerydb.org",
+    baseUrl: " https://api.openbrewerydb.org/v1",
   }),
   // tagTypes: ["Breweries"],
   // This is used to enable cross functionality between Next.js and RTK query
