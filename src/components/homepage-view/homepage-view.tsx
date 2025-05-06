@@ -9,7 +9,6 @@ import LoadingOverlay from "../loading-overlay/loading-overlay"
 
 export const HomepageView: FC<HomepageViewProps> = () => {
   const loading = useAppSelector((state) => state.breweries.breweriesLoading)
-  console.log("!@ loading", loading)
   return (
     <Layout>
       <motion.div

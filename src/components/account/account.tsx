@@ -50,7 +50,6 @@ export default function Account({ session }: AccountProps) {
       }
     } catch (error) {
       alert("Error loading user data!")
-      console.log("CATCH ERROR", error)
     } finally {
       setLoading(false)
     }
@@ -72,7 +71,6 @@ export default function Account({ session }: AccountProps) {
       alert("Profile updated!")
     } catch (error) {
       alert("Error updating the data!")
-      console.log(error)
     } finally {
       setLoading(false)
     }

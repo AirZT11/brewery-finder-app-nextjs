@@ -5,9 +5,10 @@ import {
   LinkOverlay,
   useDisclosure,
 } from "@chakra-ui/react"
-import { FC, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import {
+  makeSelectRatingForBrewery,
   RatingProps,
   RatingsState,
   selectRating,
@@ -30,8 +31,9 @@ const BreweryCard: FC<BreweryCardProps> = ({ brewery }) => {
   const { myMapA } = useMap()
   const { location } = useUserLocation()
 
-  const breweryRatings = useSelector((state: { ratings: RatingsState }) =>
-    selectRating(state, brewery.id)
+  const selectRatingForBrewery = useMemo(makeSelectRatingForBrewery, [])
+  const breweryRatings = useSelector((state) =>
+    selectRatingForBrewery(state, brewery.id)
   )
 
   // Get average rating

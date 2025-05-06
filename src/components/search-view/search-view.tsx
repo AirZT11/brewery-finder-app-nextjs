@@ -86,7 +86,6 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
     zoomMapOut()
     handleToast(response.data)
     if (!response.data.isLoading) {
-      console.log("!@ setBreweriesLoading(false)")
       dispatch(setBreweriesLoading(false))
     }
   }

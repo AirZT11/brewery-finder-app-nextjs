@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSelector, createSlice } from "@reduxjs/toolkit"
 import { UserProfileProps } from "./api/profilesApiSlice"
 import { getRatings, postRating } from "./api/ratingsApiSlice"
 
@@ -53,6 +53,15 @@ export const selectRating = (
 ) => {
   return state.ratings.ratingsList.filter((r) => r.brewery_id === breweryId)
 }
+
+export const selectRatingsState = (state: { ratings: RatingsState }) =>
+  state.ratings.ratingsList
+
+export const makeSelectRatingForBrewery = () =>
+  createSelector(
+    [selectRatingsState, (_: any, breweryId: string) => breweryId],
+    (ratings, breweryId) => ratings.filter((r) => r.brewery_id === breweryId)
+  )
 
 // Exports all actions
 export const {} = actions
