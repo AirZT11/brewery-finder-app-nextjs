@@ -112,7 +112,7 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
         <Flex w="full">
           <Input
             bg="white"
-            placeholder="Search Brewery..."
+            placeholder={`Search Brewery By ${searchBy}...`}
             variant="outline"
             size="lg"
             onChange={onInput}
