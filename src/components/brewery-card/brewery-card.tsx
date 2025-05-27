@@ -18,7 +18,7 @@ import BreweryInfoPopupView from "../brewery-info-popup-view/brewery-info-popup-
 import BreweryCardContext from "./brewery-card-context"
 import { BreweryCardProps } from "./brewery-card.props"
 import { useUser } from "@supabase/auth-helpers-react"
-import { useMap } from "react-map-gl"
+import { useMap } from "react-map-gl/mapbox"
 import { GrMapLocation } from "react-icons/gr"
 import { FaDirections } from "react-icons/fa"
 import { useAppDispatch } from "../../store/hooks"

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react"
 import { FC, useMemo, useState } from "react"
 import { MapViewProps } from "./map-view.props"
-import { Map, Marker, useMap } from "react-map-gl"
+import { Map, Marker, useMap } from "react-map-gl/mapbox"
 import { useUserLocation } from "../../hooks/useUserLocation"
 import Image from "next/image"
 import { useAppSelector } from "../../store/hooks"

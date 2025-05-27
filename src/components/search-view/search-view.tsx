@@ -19,7 +19,7 @@ import {
 } from "../../store/features/api/breweriesApiSlice"
 import { SearchViewProps } from "./search-view.props"
 import { useRouter } from "next/router"
-import { useMap } from "react-map-gl"
+import { useMap } from "react-map-gl/mapbox"
 import { useUserLocation } from "../../hooks/useUserLocation"
 import { UseQueryStateResult } from "@reduxjs/toolkit/dist/query/react/buildHooks"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"

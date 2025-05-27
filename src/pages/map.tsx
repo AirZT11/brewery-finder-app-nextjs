@@ -1,6 +1,5 @@
 import { Container, Flex, Heading } from "@chakra-ui/react"
 import Head from "next/head"
-import { MapProvider } from "react-map-gl"
 import BreweryListContainerView from "../components/brewery-list-container-view/brewery-list-container-view"
 import Layout from "../components/layout/layout"
 import MapView from "../components/map-view/map-view"

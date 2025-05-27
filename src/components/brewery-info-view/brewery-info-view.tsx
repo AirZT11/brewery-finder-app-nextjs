@@ -1,6 +1,5 @@
 import { Flex, Heading, IconButton, Text } from "@chakra-ui/react"
 import { FC } from "react"
-import { useMap } from "react-map-gl"
 import { Rating } from "react-simple-star-rating"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
 import { BreweryInfoViewProps } from "./brewery-info-view.props"

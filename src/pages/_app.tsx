@@ -5,7 +5,7 @@ import { SessionContextProvider, Session } from "@supabase/auth-helpers-react"
 import { useState } from "react"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
-import { MapProvider } from "react-map-gl"
+import { MapProvider } from "react-map-gl/mapbox"
 import theme from "../theme"
 const { wrapper } = require("../store/store")
 import "@fontsource/raleway/400.css"
