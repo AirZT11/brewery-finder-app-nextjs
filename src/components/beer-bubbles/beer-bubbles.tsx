@@ -68,7 +68,7 @@ const BeerBubblesContent: FC = () => {
       right={0}
       bottom={0}
       pointerEvents="none"
-      zIndex={999}
+      zIndex={1}
       overflow="hidden"
       // bg="background.100"
     >

@@ -33,7 +33,7 @@ const NavBarView: FC<NavBarViewProps> = () => {
   return (
     <Flex
       w="full"
-      py={2}
+      py={{ base: "2", md: "8" }}
       px={{ base: "2", md: "4" }}
       justifyContent="space-between"
       bg="background.100"

@@ -20,7 +20,6 @@ export const HomepageView: FC<HomepageViewProps> = () => {
 
   return (
     <Layout>
-      <BeerBubbles />
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -51,6 +50,7 @@ export const HomepageView: FC<HomepageViewProps> = () => {
           <SearchView navigateToMapOnSubmit />
         </Flex>
       </motion.div>
+      <BeerBubbles />
       {loading && <LoadingOverlay />}
     </Layout>
   )
