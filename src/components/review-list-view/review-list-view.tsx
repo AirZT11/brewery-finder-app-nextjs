@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, Heading, Text } from "@chakra-ui/react"
 import { FC } from "react"
 import { useBreweryCardContext } from "../brewery-card/brewery-card-context"
 import ReviewCard from "../review-card/review-card"
@@ -10,6 +10,7 @@ const ReviewListView: FC<ReviewListViewProps> = ({
 }) => {
   return (
     <Flex direction="column">
+      {isProfileView && <Heading>Your reviews</Heading>}
       {breweryRatings && breweryRatings.length ? (
         breweryRatings.map((rating) =>
           isProfileView ? (

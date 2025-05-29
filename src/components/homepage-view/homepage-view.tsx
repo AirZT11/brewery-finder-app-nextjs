@@ -1,14 +1,22 @@
 import { Flex, Heading } from "@chakra-ui/react"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import Layout from "../layout/layout"
 import SearchView from "../search-view/search-view"
 import { HomepageViewProps } from "./homepage-view.props"
 import { motion } from "framer-motion"
 import { useAppSelector } from "../../store/hooks"
 import LoadingOverlay from "../loading-overlay/loading-overlay"
+import { useRouter } from "next/router"
 
 export const HomepageView: FC<HomepageViewProps> = () => {
   const loading = useAppSelector((state) => state.breweries.breweriesLoading)
+  const router = useRouter()
+
+  useEffect(() => {
+    // Prefetch the map page
+    router.prefetch("/map")
+  }, [router])
+
   return (
     <Layout>
       <motion.div

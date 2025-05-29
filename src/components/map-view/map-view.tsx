@@ -9,7 +9,7 @@ import {
   IconButton,
   Box,
 } from "@chakra-ui/react"
-import { FC, useMemo, useState } from "react"
+import { FC, useMemo, useState, memo } from "react"
 import { MapViewProps } from "./map-view.props"
 import { Map, Marker, useMap } from "react-map-gl/mapbox"
 import { useUserLocation } from "../../hooks/useUserLocation"
@@ -20,14 +20,65 @@ import { BsCircleFill } from "react-icons/bs"
 import { BiCurrentLocation } from "react-icons/bi"
 import { useLazyGetBreweriesByLocationQuery } from "../../store/features/api/breweriesApiSlice"
 import LoadingOverlay from "../loading-overlay/loading-overlay"
+import { BreweryState } from "../../store/features/breweriesSlice"
 
 const KEY = process.env.NEXT_PUBLIC_MAPBOX_KEY
 
+// Memoized Marker component
+const BreweryMarker = memo(
+  ({
+    brewery,
+    selectedBrew,
+  }: {
+    brewery: BreweryState
+    selectedBrew: BreweryState | null
+  }) => {
+    const selected = brewery.id === selectedBrew?.id
+    return (
+      <Marker
+        key={brewery.id}
+        longitude={+brewery.longitude!}
+        latitude={+brewery.latitude!}
+        anchor="bottom"
+        rotationAlignment="map"
+      >
+        <Popover placement="top">
+          <PopoverTrigger>
+            <Flex direction="column" align="center">
+              {selected && (
+                <Icon
+                  as={BsCircleFill}
+                  boxSize={10}
+                  position="absolute"
+                  color="red"
+                  bottom={2.5}
+                  right={-1}
+                  opacity=".5"
+                />
+              )}
+              <Image
+                src="beerIcon.svg"
+                alt="beer-icon"
+                width="30"
+                height="30"
+              />
+              <TriangleDownIcon boxSize={4} opacity=".5" />
+            </Flex>
+          </PopoverTrigger>
+          <PopoverContent w="100px">
+            <PopoverBody>{brewery.name}</PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </Marker>
+    )
+  }
+)
+
+BreweryMarker.displayName = "BreweryMarker"
+
 const MapView: FC<MapViewProps> = ({ children }) => {
-  // const [selectedBrew, setSelectedBrew] = useState(null)
   const [mapLoaded, setMapLoaded] = useState(false)
   const { myMapA } = useMap()
-
   const { location, loading } = useUserLocation()
   const [getBreweriesByLocation, result] = useLazyGetBreweriesByLocationQuery()
 
@@ -36,7 +87,7 @@ const MapView: FC<MapViewProps> = ({ children }) => {
     longitude: location?.lng || -73.94416,
     zoom: 6,
   })
-  // const dispatch = useAppDispatch()
+
   const breweries = useAppSelector((state) => state.breweries.breweriesList)
   const selectedBrew = useAppSelector(
     (state) => state.breweries.selectedBrewery
@@ -45,69 +96,21 @@ const MapView: FC<MapViewProps> = ({ children }) => {
     (state) => state.breweries.breweriesLoading
   )
 
-  // Checks each brewery's marker position and sees if it within the current map's viewport
-  // const checkPositionBounds = (breweriesArr: BreweryState[]) => {
-  //   const checkIfPositionInViewport = (lat: number, lng: number) => {
-  //     const bounds = mapRef?.current?.getMap().getBounds()
-  //     return bounds?.contains([lng, lat])
-  //   }
-
-  //   breweriesArr.forEach((b) => {
-  //     const isInBound = checkIfPositionInViewport(b.latitude, b.longitude)
-  //     console.log("!@", b.name, isInBound, b.latitude, b.longitude)
-  //   })
-  // }
-
+  // Memoize brewery markers
   const breweryMarkers = useMemo(
     () =>
-      breweries?.map((brewery) => {
-        const selected = brewery.id === selectedBrew?.id
-        return (
-          <Marker
-            key={brewery.id}
-            // The + converts a string into a number
-            longitude={+brewery.longitude!}
-            latitude={+brewery.latitude!}
-            anchor="bottom"
-            rotationAlignment="map"
-          >
-            <Popover placement="top">
-              <PopoverTrigger>
-                <Flex direction="column" align="center">
-                  {selected && (
-                    <Icon
-                      as={BsCircleFill}
-                      boxSize={10}
-                      position="absolute"
-                      color="red"
-                      bottom={2.5}
-                      right={-1}
-                      opacity=".5"
-                    />
-                  )}
-                  <Image
-                    src="beerIcon.svg"
-                    alt="beer-icon"
-                    width="30"
-                    height="30"
-                  />
-
-                  <TriangleDownIcon boxSize={4} opacity=".5" />
-                </Flex>
-              </PopoverTrigger>
-
-              <PopoverContent w="100px">
-                <PopoverBody>{brewery.name}</PopoverBody>
-              </PopoverContent>
-            </Popover>
-          </Marker>
-        )
-      }),
+      breweries?.map((brewery) => (
+        <BreweryMarker
+          key={brewery.id}
+          brewery={brewery}
+          selectedBrew={selectedBrew}
+        />
+      )),
     [breweries, selectedBrew]
   )
 
   return (
-    <Flex w="100%" h="100%" /* filter="blur(10px)" */>
+    <Flex w="100%" h="100%">
       <Skeleton isLoaded={mapLoaded} w="100%" h="100%" fadeDuration={1}>
         <Map
           attributionControl={false}
@@ -161,4 +164,4 @@ const MapView: FC<MapViewProps> = ({ children }) => {
   )
 }
 
-export default MapView
+export default memo(MapView)

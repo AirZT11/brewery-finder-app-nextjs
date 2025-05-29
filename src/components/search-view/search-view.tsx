@@ -90,13 +90,39 @@ const SearchView: FC<SearchViewProps> = ({ navigateToMapOnSubmit = false }) => {
     }
   }
 
-  const handleSubmit = () => {
-    navigateToMapOnSubmit && router.push("/map")
+  const handleSubmit = async () => {
+    if (!input) {
+      toast({
+        title: "Please enter a search term.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      })
+      return
+    }
+
     dispatch(setBreweriesLoading(true))
-    searchBy === "Name" && getBrewsByName(input).then(handleBrewQueryResponse)
-    searchBy === "Zip" && getBrewsByZip(input).then(handleBrewQueryResponse)
-    searchBy === "City" && getBrewsByCity(input).then(handleBrewQueryResponse)
-    searchBy === "State" && getBrewsByState(input).then(handleBrewQueryResponse)
+
+    // Start the API call before navigation
+    const searchPromise =
+      searchBy === "Name"
+        ? getBrewsByName(input)
+        : searchBy === "Zip"
+        ? getBrewsByZip(input)
+        : searchBy === "City"
+        ? getBrewsByCity(input)
+        : searchBy === "State"
+        ? getBrewsByState(input)
+        : Promise.resolve(null)
+
+    // Navigate first
+    if (navigateToMapOnSubmit) {
+      await router.push("/map")
+    }
+
+    // Then handle the response
+    const response = await searchPromise
+    handleBrewQueryResponse(response)
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
