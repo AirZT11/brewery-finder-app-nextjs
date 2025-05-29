@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { useAppSelector } from "../../store/hooks"
 import LoadingOverlay from "../loading-overlay/loading-overlay"
 import { useRouter } from "next/router"
+import BeerBubbles from "../beer-bubbles/beer-bubbles"
 
 export const HomepageView: FC<HomepageViewProps> = () => {
   const loading = useAppSelector((state) => state.breweries.breweriesLoading)
@@ -19,6 +20,7 @@ export const HomepageView: FC<HomepageViewProps> = () => {
 
   return (
     <Layout>
+      <BeerBubbles />
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -28,6 +30,7 @@ export const HomepageView: FC<HomepageViewProps> = () => {
           damping: 20,
         }}
         exit={{ opacity: 0, scale: 0.5 }}
+        style={{ position: "relative", zIndex: 2 }}
       >
         <Flex
           direction="column"
@@ -35,6 +38,7 @@ export const HomepageView: FC<HomepageViewProps> = () => {
           align="center"
           p="4"
           mt={{ base: "10", md: "40" }}
+          position="relative"
         >
           <Flex direction="column" mb="8" align="center">
             <Heading>Welcome To</Heading>
